@@ -43,7 +43,8 @@
 			this.tmrCheck = new System.Windows.Forms.Timer(this.components);
 			this.tmrPointer = new System.Windows.Forms.Timer(this.components);
 			this.label5 = new System.Windows.Forms.Label();
-			this.lblRawData = new System.Windows.Forms.Label();
+			this.lblColor = new System.Windows.Forms.Label();
+			this.colorDialog1 = new System.Windows.Forms.ColorDialog();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -76,7 +77,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(12, 150);
+			this.label4.Location = new System.Drawing.Point(11, 19);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(37, 13);
 			this.label4.TabIndex = 3;
@@ -84,6 +85,7 @@
 			// 
 			// txtMRX
 			// 
+			this.txtMRX.Enabled = false;
 			this.txtMRX.Location = new System.Drawing.Point(152, 46);
 			this.txtMRX.MaxLength = 5;
 			this.txtMRX.Name = "txtMRX";
@@ -93,6 +95,7 @@
 			// 
 			// txtMRY
 			// 
+			this.txtMRY.Enabled = false;
 			this.txtMRY.Location = new System.Drawing.Point(217, 46);
 			this.txtMRY.MaxLength = 5;
 			this.txtMRY.Name = "txtMRY";
@@ -102,6 +105,7 @@
 			// 
 			// txtARY
 			// 
+			this.txtARY.Enabled = false;
 			this.txtARY.Location = new System.Drawing.Point(217, 83);
 			this.txtARY.MaxLength = 5;
 			this.txtARY.Name = "txtARY";
@@ -111,6 +115,7 @@
 			// 
 			// txtARX
 			// 
+			this.txtARX.Enabled = false;
 			this.txtARX.Location = new System.Drawing.Point(152, 83);
 			this.txtARX.MaxLength = 5;
 			this.txtARX.Name = "txtARX";
@@ -120,6 +125,7 @@
 			// 
 			// txtORY
 			// 
+			this.txtORY.Enabled = false;
 			this.txtORY.Location = new System.Drawing.Point(217, 119);
 			this.txtORY.MaxLength = 5;
 			this.txtORY.Name = "txtORY";
@@ -129,6 +135,7 @@
 			// 
 			// txtORX
 			// 
+			this.txtORX.Enabled = false;
 			this.txtORX.Location = new System.Drawing.Point(152, 119);
 			this.txtORX.MaxLength = 5;
 			this.txtORX.Name = "txtORX";
@@ -142,7 +149,7 @@
 			this.lblStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblStatus.ForeColor = System.Drawing.Color.DarkRed;
-			this.lblStatus.Location = new System.Drawing.Point(176, 150);
+			this.lblStatus.Location = new System.Drawing.Point(175, 19);
 			this.lblStatus.Name = "lblStatus";
 			this.lblStatus.Size = new System.Drawing.Size(87, 15);
 			this.lblStatus.TabIndex = 8;
@@ -164,27 +171,27 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(12, 18);
+			this.label5.Location = new System.Drawing.Point(11, 152);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(55, 13);
+			this.label5.Size = new System.Drawing.Size(98, 13);
 			this.label5.TabIndex = 9;
-			this.label5.Text = "Raw Data";
+			this.label5.Text = "Color para el marco";
 			// 
-			// lblRawData
+			// lblColor
 			// 
-			this.lblRawData.AutoSize = true;
-			this.lblRawData.Location = new System.Drawing.Point(149, 18);
-			this.lblRawData.Name = "lblRawData";
-			this.lblRawData.Size = new System.Drawing.Size(79, 13);
-			this.lblRawData.TabIndex = 10;
-			this.lblRawData.Text = "1920,1080,1,";
+			this.lblColor.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.lblColor.Location = new System.Drawing.Point(149, 152);
+			this.lblColor.Name = "lblColor";
+			this.lblColor.Size = new System.Drawing.Size(127, 20);
+			this.lblColor.TabIndex = 11;
+			this.lblColor.Click += new System.EventHandler(this.lblColor_Click);
 			// 
 			// mainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(292, 201);
-			this.Controls.Add(this.lblRawData);
+			this.ClientSize = new System.Drawing.Size(434, 308);
+			this.Controls.Add(this.lblColor);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.lblStatus);
 			this.Controls.Add(this.txtORY);
@@ -197,7 +204,7 @@
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
-			this.Cursor = System.Windows.Forms.Cursors.UpArrow;
+			this.Cursor = System.Windows.Forms.Cursors.Arrow;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.MaximizeBox = false;
 			this.Name = "mainForm";
@@ -224,6 +231,7 @@
 		private System.Windows.Forms.Timer tmrCheck;
 		private System.Windows.Forms.Timer tmrPointer;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label lblRawData;
+		private System.Windows.Forms.Label lblColor;
+		private System.Windows.Forms.ColorDialog colorDialog1;
 	}
 }

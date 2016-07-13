@@ -1,58 +1,31 @@
 ﻿using System;
-using System.Windows.Forms;
-
-
-
-/*
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-*/
 using Engine;
-
-
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace tabletmouse.source {
 	public partial class mainForm : Form {
-		//myAESPool AES = new myAESPool();
+		areaForm frm = new areaForm();
+		myInterfacePool myfp = new myInterfacePool();
 
-		/*
-				[DllImport("core.dll", CallingConvention = CallingConvention.Cdecl)]
-				public static extern bool getConeccionStatus();
-
-				[DllImport("core.dll", CallingConvention = CallingConvention.Cdecl)]
-				public static extern int getMonitorResolution(short[] buffer);
-
-				[DllImport("core.dll", CallingConvention = CallingConvention.Cdecl)]
-				public static extern int getAndroidResolution(short[] buffer);
-
-				[DllImport("core.dll", CallingConvention = CallingConvention.Cdecl)]
-				public static extern int getOffsetResolution(short[] buffer);
-		*/
 		public mainForm() {
 			InitializeComponent();
 		}
 
+		//to know if client is conected with server
 		private void tmrCheck_Tick(object sender, EventArgs e) {
-			//clsEngine.setName("sdf");
-			//lblStatus.Text = clsEngine.getIP();
 
-			/*
-			String X = txtORX.Text;
-			String Y = txtORY.Text;
+			myfp.deviceResolution(true);
 
-			short[] buffer = { short.Parse(X), short.Parse(Y) };
-			getOffsetResolution(buffer);
-			*/
+			txtARX.Text = "" + myfp.deviceResolution(true);
+			txtARY.Text = "" + myfp.deviceResolution(false);
+		
 
 			if (myNetworkPool.GetInstance().getConecctionStatus() == myNetworkPool.CONNECTION_STATUS.CONNECTED) {
 				lblStatus.Text = "Connected";
 				lblStatus.ForeColor = System.Drawing.Color.Green;
+				frm.setSize(myfp.deviceResolution(true), myfp.deviceResolution(false));
+				myfp.setOffsetResolution(txtORX.Text, txtORY.Text);
 			} else if (myNetworkPool.GetInstance().getConecctionStatus() == myNetworkPool.CONNECTION_STATUS.DISCONECTED) {
 				lblStatus.Text = "Disconnected";
 				lblStatus.ForeColor = System.Drawing.Color.DarkRed;
@@ -65,23 +38,27 @@ namespace tabletmouse.source {
 
 		}
 
+		//to update data in the form screen
 		private void mainForm_Load(object sender, EventArgs e) {
-
-			short[] buffer = { 0, 0 };
-
-			//getMonitorResolution(buffer);
+			frm.Show();
 			txtMRX.Text = SystemInformation.VirtualScreen.Width.ToString();
 			txtMRY.Text = SystemInformation.VirtualScreen.Height.ToString();
-
-			//getAndroidResolution(buffer);
-			txtARX.Text = buffer[0].ToString();
-			txtARY.Text = buffer[1].ToString();
-
-
+			txtARX.Text = "0";
+			txtARY.Text = "0";
+			frm.setBorderColor(lblColor.BackColor);
 		}
 
 		private void tmrPointer_Tick(object sender, EventArgs e) {
-			lblRawData.Text = myNetworkPool.GetInstance().dataRaw();
+			txtORX.Text = frm.offsetResolution(true).ToString();
+			txtORY.Text = frm.offsetResolution(false).ToString();
+		}
+
+
+		private void lblColor_Click(object sender, EventArgs e) {
+			if(colorDialog1.ShowDialog() == DialogResult.OK) {
+				lblColor.BackColor = colorDialog1.Color;
+				frm.setBorderColor(lblColor.BackColor);
+			}
 		}
 	}
 }

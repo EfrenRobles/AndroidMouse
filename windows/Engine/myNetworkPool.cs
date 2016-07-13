@@ -60,15 +60,14 @@ namespace Engine {
 				try {
 					acc.Receive(Buffer, 0, Buffer.Length, 0);
 					Result = AES.DecryptFromBase64(Buffer);
-					//Console.WriteLine(Result);
 					mynpo.moveMouse(Result);
 					acc.Send(buffReturn);
 				} catch (Exception e) {
 					acc.Close();
 					sck.Close();
-					Console.WriteLine(" --- last data recieved was: " + System.Text.Encoding.Default.GetString(Buffer));
 					Console.WriteLine(" --- try catch exception was: " + e.ToString());
 				}
+				Console.WriteLine(" --- last data recieved was: " + System.Text.Encoding.Default.GetString(Buffer));
 			}
 			p_statusConecction = CONNECTION_STATUS.DISCONECTED;
 		}
