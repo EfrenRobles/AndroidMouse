@@ -1,25 +1,24 @@
 package com.chucuaz.android.androidinterface;
 
-import android.support.v7.app.AppCompatActivity;
-
-
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.WindowManager;
+import android.widget.Toast;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class MainActivity extends AppCompatActivity {
+
+
+	public static MainActivity mainContext;
+
+	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     myThreadPool mythr = new myThreadPool();
 	private int doClick = 0;
@@ -29,37 +28,21 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("onCreate", "onCreate: ");
 		super.onCreate(savedInstanceState);
+		mainContext = this;
+
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.activity_main);
-		mythr.initSocket();
 
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-		deviceScreensize = metrics.heightPixels + "," + metrics.widthPixels + "," + 2 + ",";
 
-	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
+		initPermission();
+		deviceScreensize = metrics.widthPixels + "," + metrics.heightPixels + "," + 2 + ",";
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			finish();
-			System.exit(0);
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	public boolean onTouchEvent(final MotionEvent event) {
@@ -67,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 			doClick = 1;
 		} else if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			mythr.sendData(deviceScreensize);
-			doClick = 2;
+			doClick = 1;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			doClick = 0;
 		}
@@ -81,7 +64,54 @@ public class MainActivity extends AppCompatActivity {
 		return true;
 	}
 
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		Log.d("MainActivity", " --- onRequestPermissionsResult step 1 ---");
+		switch (requestCode) {
+			case REQUEST_CODE_ASK_PERMISSIONS:
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					Log.i("MainActivity", " Permission was granted");
+					// Permission Granted
+				} else {
+					// Permission Denied
+					Log.i("MainActivity", " Permission was denied");
+					Toast.makeText(MainActivity.this, "WRITE_CONTACTS Denied", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			default:
+				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
+	}
+
     private void initApp() {
 		new Thread(new myThreadPool()).start();
     }
+
+	private void initPermission () {
+		Log.d("MainActivity", " --- initPermission step 1 ---");
+		int hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET);
+		if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+			Log.d("MainActivity", " --- initPermission step 2 ---");
+			ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.INTERNET}, REQUEST_CODE_ASK_PERMISSIONS);
+			return;
+		}
+
+		hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_NETWORK_STATE);
+		if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+			Log.d("MainActivity", " --- initPermission step 2.1 ---");
+			ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_NETWORK_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
+			return;
+		}
+
+		hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_WIFI_STATE);
+		if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+			Log.d("MainActivity", " --- initPermission step 2.2 ---");
+			ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_WIFI_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
+			return;
+		}
+
+		Log.d("MainActivity", " --- initPermission step 3 ---");
+		mythr.initSocket();
+	}
+
 }

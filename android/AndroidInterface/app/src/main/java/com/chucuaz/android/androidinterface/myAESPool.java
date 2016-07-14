@@ -23,7 +23,7 @@ public class myAESPool {
 
     private static String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
     private static String CIPHER_ALGORITHM = "AES";
-    // Replace me with a 16-byte key, share between Java and C#
+    // Replace me with a 16-byte key, share between Java and C++
     private static byte[] rawSecretKey = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     private static String MESSAGEDIGEST_ALGORITHM = "MD5";

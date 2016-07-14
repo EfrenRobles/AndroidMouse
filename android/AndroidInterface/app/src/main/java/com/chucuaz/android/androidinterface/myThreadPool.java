@@ -14,17 +14,20 @@ class  myThreadPool implements Runnable {
 
     private final int SERVERPORT = 1800;
     private final int SERERTIMEOUT = 50;
-    private String SERVER_IP = "192.168.42.39";
+    private static String SERVER_IP = "192.168.86.223";
+    //private String SERVER_IP = "192.168.42.2";
 
     @Override
     public void run() {
-        Log.w("ClientThread", "--- run new myNetworkPool from init()");
+        Log.w("ClientThread", "--- run new myNetworkPool from init( SERVERPORT= " + SERVERPORT + " SERERTIMEOUT= " + SERERTIMEOUT + " SERVER_IP= " + SERVER_IP + " )");
         InetSocketAddress socketAddress = new InetSocketAddress(SERVER_IP, SERVERPORT);
         mynet.initSocket(socketAddress, SERERTIMEOUT);
     }
 
     public void initSocket () {
-        mynet.initSocket();
+        SERVER_IP = mynet.initSocket();
+        Log.v("ClientThread", " --- SERVER_IP: " + SERVER_IP + " --- ");
+
     }
 
     public boolean isConnected() {
