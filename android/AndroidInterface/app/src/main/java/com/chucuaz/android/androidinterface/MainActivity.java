@@ -1,3 +1,5 @@
+//Virtual Graphics Drawing Tablet
+//Virtual GDT
 package com.chucuaz.android.androidinterface;
 
 import android.Manifest;
