@@ -1,4 +1,4 @@
-package com.chucuaz.android.androidinterface;
+package com.chucuaz.android.VirtualGDT;
 
 import android.content.Context;
 import android.net.DhcpInfo;

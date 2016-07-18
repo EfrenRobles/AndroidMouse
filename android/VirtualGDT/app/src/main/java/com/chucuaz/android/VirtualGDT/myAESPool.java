@@ -1,4 +1,4 @@
-package com.chucuaz.android.androidinterface;
+package com.chucuaz.android.VirtualGDT;
 
 import java.security.*;
 import javax.crypto.*;

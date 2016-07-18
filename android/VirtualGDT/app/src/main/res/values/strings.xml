@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidInterface</string>
-    <string name="app_nick">Tableta Grafica</string>
+    <string name="app_name">VirtualGDT</string>
+    <string name="app_nick">Virtual Graphics Drawing Tablet</string>
 
 </resources>

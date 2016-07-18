@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGDT", "VirtualGDT\VirtualGDT.csproj", "{84B98BCC-A0CF-42B3-824D-0B042C37134E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{94DFAD06-AC85-48D5-9646-9AACF873115D}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core", "core\core.vcxproj", "{F7421F1A-D064-4775-BC32-C1059866878F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,16 +41,6 @@ Global
 		{94DFAD06-AC85-48D5-9646-9AACF873115D}.Release|x64.Build.0 = Release|Any CPU
 		{94DFAD06-AC85-48D5-9646-9AACF873115D}.Release|x86.ActiveCfg = Release|Any CPU
 		{94DFAD06-AC85-48D5-9646-9AACF873115D}.Release|x86.Build.0 = Release|Any CPU
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Debug|x64.ActiveCfg = Debug|Win32
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Debug|x64.Build.0 = Debug|Win32
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Debug|x86.ActiveCfg = Debug|Win32
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Debug|x86.Build.0 = Debug|Win32
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Release|Any CPU.ActiveCfg = Release|Win32
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Release|x64.ActiveCfg = Release|x64
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Release|x64.Build.0 = Release|x64
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Release|x86.ActiveCfg = Release|Win32
-		{F7421F1A-D064-4775-BC32-C1059866878F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

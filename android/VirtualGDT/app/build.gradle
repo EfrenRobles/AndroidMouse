@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '23.0.3'
     defaultConfig {
-        applicationId "com.chucuaz.android.androidinterface"
+        applicationId "com.chucuaz.android.VirtualGDT"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
