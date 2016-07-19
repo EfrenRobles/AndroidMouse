@@ -7,8 +7,8 @@
     <ProjectGuid>{84B98BCC-A0CF-42B3-824D-0B042C37134E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>tabletmouse</RootNamespace>
-    <AssemblyName>tabletmouse</AssemblyName>
+    <RootNamespace>VirtualGDT</RootNamespace>
+    <AssemblyName>VirtualGDT</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>

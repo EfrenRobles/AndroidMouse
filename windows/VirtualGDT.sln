@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tabletmouse", "tabletmouse\tabletmouse.csproj", "{84B98BCC-A0CF-42B3-824D-0B042C37134E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGDT", "VirtualGDT\VirtualGDT.csproj", "{84B98BCC-A0CF-42B3-824D-0B042C37134E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{94DFAD06-AC85-48D5-9646-9AACF873115D}"
 EndProject
