@@ -9,18 +9,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+public class DrawActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
 
-
-	public static MainActivity mainContext;
-
-	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+	public static DrawActivity mainContext;
+	private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     myThreadPool mythr = new myThreadPool();
 	private int doClick = 0;
@@ -28,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.d("onCreate", "onCreate: ");
+		debug.DBG("onCreate", "onCreate: ");
 		super.onCreate(savedInstanceState);
 		mainContext = this;
 
@@ -40,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
+		//initPermission();
+		mythr.initSocket();
 
-
-		initPermission();
 		deviceScreensize = metrics.widthPixels + "," + metrics.heightPixels + "," + 2 + ",";
 
 	}
@@ -66,18 +63,22 @@ public class MainActivity extends AppCompatActivity {
 		return true;
 	}
 
+	private void initApp() {
+		new Thread(new myThreadPool()).start();
+	}
+
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		Log.d("MainActivity", " --- onRequestPermissionsResult step 1 ---");
+		debug.DBG("DrawActivity", " --- onRequestPermissionsResult step 1 ---");
 		switch (requestCode) {
 			case REQUEST_CODE_ASK_PERMISSIONS:
 				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					Log.i("MainActivity", " Permission was granted");
+					debug.INFO("DrawActivity", " Permission was granted");
 					// Permission Granted
 				} else {
 					// Permission Denied
-					Log.i("MainActivity", " Permission was denied");
-					Toast.makeText(MainActivity.this, "WRITE_CONTACTS Denied", Toast.LENGTH_SHORT).show();
+					debug.INFO("DrawActivity", " Permission was denied");
+					Toast.makeText(DrawActivity.this, "WRITE_CONTACTS Denied", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			default:
@@ -85,34 +86,31 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-    private void initApp() {
-		new Thread(new myThreadPool()).start();
-    }
 
 	private void initPermission () {
-		Log.d("MainActivity", " --- initPermission step 1 ---");
-		int hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET);
+		debug.DBG("DrawActivity", " --- initPermission step 1 ---");
+		int hasWriteContactsPermission = ContextCompat.checkSelfPermission(DrawActivity.this, Manifest.permission.INTERNET);
 		if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-			Log.d("MainActivity", " --- initPermission step 2 ---");
-			ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.INTERNET}, REQUEST_CODE_ASK_PERMISSIONS);
+			debug.DBG("DrawActivity", " --- initPermission step 2 ---");
+			ActivityCompat.requestPermissions(DrawActivity.this, new String[] {Manifest.permission.INTERNET}, REQUEST_CODE_ASK_PERMISSIONS);
 			return;
 		}
 
-		hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_NETWORK_STATE);
+		hasWriteContactsPermission = ContextCompat.checkSelfPermission(DrawActivity.this, Manifest.permission.ACCESS_NETWORK_STATE);
 		if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-			Log.d("MainActivity", " --- initPermission step 2.1 ---");
-			ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_NETWORK_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
+			debug.DBG("DrawActivity", " --- initPermission step 2.1 ---");
+			ActivityCompat.requestPermissions(DrawActivity.this, new String[] {Manifest.permission.ACCESS_NETWORK_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
 			return;
 		}
 
-		hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_WIFI_STATE);
+		hasWriteContactsPermission = ContextCompat.checkSelfPermission(DrawActivity.this, Manifest.permission.ACCESS_WIFI_STATE);
 		if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-			Log.d("MainActivity", " --- initPermission step 2.2 ---");
-			ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_WIFI_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
+			debug.DBG("DrawActivity", " --- initPermission step 2.2 ---");
+			ActivityCompat.requestPermissions(DrawActivity.this, new String[] {Manifest.permission.ACCESS_WIFI_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
 			return;
 		}
 
-		Log.d("MainActivity", " --- initPermission step 3 ---");
+		debug.DBG("DrawActivity", " --- initPermission step 3 ---");
 		mythr.initSocket();
 	}
 

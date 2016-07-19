@@ -5,7 +5,6 @@ import javax.crypto.*;
 import javax.crypto.spec.*;
 
 import android.util.Base64;
-import android.util.Log;
 
 
 /**
@@ -34,9 +33,9 @@ public class myAESPool {
         try {
             aesCipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
         } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "No such algorithm " + CIPHER_ALGORITHM, e);
+            debug.ERR(TAG, "No such algorithm " + CIPHER_ALGORITHM, e);
         } catch (NoSuchPaddingException e) {
-            Log.e(TAG, "No such padding PKCS5", e);
+            debug.ERR(TAG, "No such padding PKCS5", e);
         }
 
         secretKey = new SecretKeySpec(passwordKey, CIPHER_ALGORITHM);
@@ -53,7 +52,7 @@ public class myAESPool {
         try {
             encryptedData = clearData.getBytes("UTF-8");
         } catch (Exception e) {
-            Log.e(TAG, "--- There is an error with encryptAsBAse64 --- ");
+            debug.ERR(TAG, "--- There is an error with encryptAsBAse64 --- ");
         }
         return encryptAsBase64(encryptedData);
     }
@@ -63,10 +62,10 @@ public class myAESPool {
         try {
             aesCipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
         } catch (InvalidKeyException e) {
-            Log.e(TAG, "Invalid key", e);
+            debug.ERR(TAG, "Invalid key", e);
             return null;
         } catch (InvalidAlgorithmParameterException e) {
-            Log.e(TAG, "Invalid algorithm " + CIPHER_ALGORITHM, e);
+            debug.ERR(TAG, "Invalid algorithm " + CIPHER_ALGORITHM, e);
             return null;
         }
 
@@ -74,10 +73,10 @@ public class myAESPool {
         try {
             encryptedData = aesCipher.doFinal(clearData);
         } catch (IllegalBlockSizeException e) {
-            Log.e(TAG, "Illegal block size", e);
+            debug.ERR(TAG, "Illegal block size", e);
             return null;
         } catch (BadPaddingException e) {
-            Log.e(TAG, "Bad padding", e);
+            debug.ERR(TAG, "Bad padding", e);
             return null;
         }
         return encryptedData;
@@ -89,7 +88,7 @@ public class myAESPool {
             digest = MessageDigest.getInstance(MESSAGEDIGEST_ALGORITHM);
             return digest.digest(text.getBytes());
         } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "No such algorithm " + MESSAGEDIGEST_ALGORITHM, e);
+            debug.ERR(TAG, "No such algorithm " + MESSAGEDIGEST_ALGORITHM, e);
         }
 
         return null;
