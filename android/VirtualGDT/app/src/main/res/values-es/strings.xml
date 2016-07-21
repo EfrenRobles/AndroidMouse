@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="strProyecto">Virtual TGDA</string>
+    <string name="strDescripcion">Virtual Tableta Grafica Digitalizadora para Android</string>
+    <string name="strConectate">Por favor ingresa la IP del servirdor para continuar</string>
+
+    <string name="strConectar">Conectar</string>
+    <string name="strAyuda">Ayuda</string>
+
+
+</resources>

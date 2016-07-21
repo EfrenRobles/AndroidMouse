@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class MobActivity extends AppCompatActivity {
     // Remove the below line after defining your own ad unit ID.
-    private static final String TOAST_TEXT = "Test ads are being shown. " + "To show live ads, replace the ad unit ID in res/values/strings.xml with your own ad unit ID.";
+    private static final String TOAST_TEXT = "";
 
     private static final int START_LEVEL = 1;
     private int mLevel;
@@ -42,7 +42,7 @@ public class MobActivity extends AppCompatActivity {
         mLevelTextView = (TextView) findViewById(R.id.level);
         mLevel = START_LEVEL;
 
-        // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
+        // Create the InterstitialAd and set the adUnitId
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
 

@@ -9,33 +9,29 @@ import java.net.InetSocketAddress;
 
 class  myThreadPool implements Runnable {
 
-    private myNetworkPool mynet = new myNetworkPool();
-
-    private final int SERVERPORT = 1800;
-    private final int SERERTIMEOUT = 50;
-    private static String SERVER_IP = "192.168.42.2";
-    //private String SERVER_IP = "192.168.42.2";
 
     @Override
     public void run() {
-        debug.WARN("ClientThread", "--- run new myNetworkPool from init( SERVERPORT= " + SERVERPORT + " SERERTIMEOUT= " + SERERTIMEOUT + " SERVER_IP= " + SERVER_IP + " )");
-        InetSocketAddress socketAddress = new InetSocketAddress(SERVER_IP, SERVERPORT);
-        mynet.initSocket(socketAddress, SERERTIMEOUT);
+        int SERERTIMEOUT = 50;
+        debug.WARN("ClientThread", "--- run new myNetworkPool from init( SERVERPORT= " + Globals.getInstance().getSERVERPORT() + " SERERTIMEOUT= " + SERERTIMEOUT + " SERVER_IP= " + Globals.getInstance().getSERVER_IP()  + " )");
+        InetSocketAddress socketAddress = new InetSocketAddress(Globals.getInstance().getSERVER_IP() , Globals.getInstance().getSERVERPORT());
+        Globals.getInstance().getMynet().initSocket(socketAddress, SERERTIMEOUT);
     }
 
-    public void initSocket () {
-        //SERVER_IP =
-        mynet.initSocket();
-        debug.VERB("ClientThread", " --- SERVER_IP: " + SERVER_IP + " --- ");
+    public void initSocket (String serverIP, int serverPort) {
+        Globals.getInstance().setSERVER_IP(serverIP); //debe de ir en la pantalla de coneccion.
+        Globals.getInstance().setSERVERPORT(serverPort);
 
+        Globals.getInstance().getMynet().initSocket();
+        debug.VERB("ClientThread", " --- SERVER_IP: " + Globals.getInstance().getSERVER_IP() + " --- ");
     }
 
     public boolean isConnected() {
-        return mynet.isConnected();
+        return Globals.getInstance().getMynet().isConnected();
     }
 
     public void sendData(String data) {
-        mynet.sendData(data);
+        Globals.getInstance().getMynet().sendData(data);
         new myNetworkPool().execute();
     }
 }

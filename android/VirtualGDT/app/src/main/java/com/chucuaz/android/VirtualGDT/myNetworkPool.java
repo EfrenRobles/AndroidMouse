@@ -1,44 +1,33 @@
 package com.chucuaz.android.VirtualGDT;
 
-import android.content.Context;
-import android.net.DhcpInfo;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 
 /**
  * Created by efren.robles on 10/14/2015.
  */
-public class myNetworkPool extends AsyncTask<String,Void,String> {
+public class myNetworkPool extends AsyncTask {
     private final String encryptionKey = "MZygpewJsCpRrfOr";
     private myAESPool aes = new myAESPool(encryptionKey);
     private static boolean l_ready = false;
     private static Socket socket = null;
 
-    public Context context;
-
     @Override
-    protected void onPostExecute(String result) {
-        if (result != null) {
-            //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    protected String  doInBackground (String  ... arg0) {
+    protected Boolean  doInBackground (Object  ... arg0) {
         if(l_ready) {
             try {
                 InputStream inFromServer = socket.getInputStream();
@@ -70,27 +59,13 @@ public class myNetworkPool extends AsyncTask<String,Void,String> {
                 }
             }
         }
-        //return l_ready;
-        return null;
+        return l_ready;
     }
 
-    public String initSocket () {
-        //socket = new Socket();
+    public void initSocket () {
         debug.ERR("ClientThread", " --- begin initSocket() --- ");
-
-        WifiManager wifii = (WifiManager)  DrawActivity.mainContext.getSystemService(Context.WIFI_SERVICE);
-        DhcpInfo d = wifii.getDhcpInfo();
-
-        debug.ERR("myNetworkPool"," DNS 1: " + d.dns1);
-        debug.ERR("myNetworkPool"," DNS 2: " + d.dns2);
-        debug.ERR("myNetworkPool"," Default Gateway: " + d.gateway);
-        debug.ERR("myNetworkPool"," IP Address: " + d.ipAddress);
-        debug.ERR("myNetworkPool"," Lease Time: " + d.leaseDuration);
-        debug.ERR("myNetworkPool"," Subnet Mask: " + d.netmask);
-        debug.ERR("myNetworkPool"," Server IP: " + d.serverAddress);
-
-        return "0.0.0.0";
-
+        getIPs(); //busco las ip del device.
+        findServidor(); //busca al servidor e intenta conectarse
     }
 
     public void initSocket(final InetSocketAddress scatAddress, final int SERVER_TIME_OUT) {
@@ -98,7 +73,7 @@ public class myNetworkPool extends AsyncTask<String,Void,String> {
         try {
             socket = new Socket();
             debug.WARN("ClientThread", " --- initSocket step 1 --- ");
-            socket.connect(scatAddress, SERVER_TIME_OUT); //aqui hay pedos con el android 6.0 no se conecta por usb, falta probar por wifi
+            socket.connect(scatAddress, Globals.getInstance().SERVER_TIME_OUT);
 
             debug.WARN("ClientThread", " --- initSocket step 2 --- ");
             System.setProperty("http.keepAlive", "false");
@@ -113,6 +88,7 @@ public class myNetworkPool extends AsyncTask<String,Void,String> {
                 debug.ERR("ClientThread", "connection problem 2:" + e1.toString());
             }
         }
+        Globals.getInstance().setConnectionStatus(l_ready);
         debug.INFO("ClientThread", " --- end initSocket --- ");
 
     }
@@ -140,5 +116,63 @@ public class myNetworkPool extends AsyncTask<String,Void,String> {
             }
         }
     }
+
+    private String intToIp(int i) {
+        return (i & 0xFF) + "." + ((i >> 8 ) & 0xFF) + "." + ((i >> 16 ) & 0xFF) + "." + ((i >> 24 ) & 0xFF);
+    }
+
+    private void getIPs() {
+        try {
+            Globals.getInstance().initnetData();
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+                        Globals.getInstance().fillNetDAta(intf.getName(),inetAddress.getHostAddress(),intf.getInterfaceAddresses().get(1).getNetworkPrefixLength());
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            debug.ERR("IP Address", ex.toString());
+        }
+   }
+
+    private void findServidor() {
+        for (int i = 0; i < 3; i++) {
+            debug.ERR("ClientThread", "--- findServidor with i: " + i);
+            if (pingServer(i)) return;
+        }
+    }
+
+    private boolean pingServer(int i ) {
+        if (Globals.getInstance().netDataA[0].auto) {
+            String[] parts = Globals.getInstance().netDataA[i].ip.split("\\.", 4);
+
+            for (int j = 1; j < 256; j++) {
+                String ipserver = parts[0] + "." + parts[1] + "." + parts[2] + "." + j;
+
+                Globals.getInstance().setSERVER_IP(ipserver);
+                askForServer();
+
+                try {
+                    Thread.sleep(51);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if (Globals.getInstance().getConnectionStatus()) {
+                    debug.ERR("ClientThread", "--- ip server is :" + ipserver);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void askForServer() {
+        new Thread(new myThreadPool()).start();
+    }
+
 
 }

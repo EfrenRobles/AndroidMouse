@@ -16,37 +16,31 @@
         android:id="@+id/lblVirtualGDT"
         android:text="@string/strProyecto"
         android:enabled="true"
-        android:textSize="55dp"
-        android:layout_marginTop="30dp"
+        android:textSize="50dp"
         android:layout_alignParentTop="true"
-        android:gravity="center_horizontal"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/strConectar"
         android:id="@+id/btnConectar"
+        android:layout_marginRight="26dp"
+        android:layout_marginEnd="26dp"
         android:textSize="30dp"
-        android:layout_above="@+id/btnAyuda"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btnAyuda"
+        android:layout_toStartOf="@+id/btnAyuda" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/strAyuda"
         android:id="@+id/btnAyuda"
-        android:layout_marginBottom="37dp"
         android:textSize="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/btnConectar"
-        android:layout_alignStart="@+id/btnConectar"
-        android:layout_alignRight="@+id/btnConectar"
-        android:layout_alignEnd="@+id/btnConectar" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,57 +48,49 @@
         android:text="@string/strDescripcion"
         android:id="@+id/lblDescripcion"
         android:layout_below="@+id/lblVirtualGDT"
-        android:textSize="15dp"
-        android:gravity="center_horizontal"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/semaforo_rojo"
-        android:layout_alignTop="@+id/btnConectar"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
 
     <FrameLayout
-        android:layout_width="200px"
-        android:layout_height="300px"
-        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/frameIP"
-        android:layout_below="@+id/lblDescripcion"
         android:visibility="visible"
         android:background="#d2be5b"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false"
+        android:layout_above="@+id/imageView"
+        android:layout_below="@+id/lblDescripcion"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp">
 
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="wrap_content"
             android:id="@+id/lblConectar"
             android:layout_below="@+id/lblVirtualGDT"
             android:layout_centerHorizontal="true"
             android:text="@string/strConectate"
             android:gravity="bottom|center_horizontal"
-            android:textSize="16dp"
-            android:layout_marginTop="10dp" />
+            android:textSize="16dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
             android:layout_gravity="bottom|center_horizontal"
-            android:transitionGroup="false"
-            android:touchscreenBlocksFocus="false"
-            android:textAlignment="center"
             android:id="@+id/layIP"
             android:gravity="center">
 
@@ -129,6 +115,7 @@
                 android:gravity="bottom|center_horizontal"
                 android:textSize="40dp"
                 android:textStyle="bold" />
+
 
             <EditText
                 android:layout_width="50dp"
@@ -188,6 +175,10 @@
 
         </LinearLayout>
 
+
+
+
     </FrameLayout>
+
 
 </RelativeLayout>
