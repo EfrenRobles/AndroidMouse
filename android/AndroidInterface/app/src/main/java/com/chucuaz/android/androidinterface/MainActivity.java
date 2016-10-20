@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,15 +22,21 @@ import java.net.UnknownHostException;
 public class MainActivity extends AppCompatActivity {
 
     myThreadPool mythr = new myThreadPool();
-
 	private int doClick = 0;
+	private static String deviceScreensize = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("onCreate", "onCreate: ");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-        initApp();
+		mythr.initSocket();
+
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+		deviceScreensize = metrics.heightPixels + "," + metrics.widthPixels + "," + 2 + ",";
+
 	}
 
 	@Override
@@ -59,22 +66,22 @@ public class MainActivity extends AppCompatActivity {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			doClick = 1;
 		} else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
+			mythr.sendData(deviceScreensize);
+			doClick = 2;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			doClick = 0;
 		}
 
-        mythr.sendData(((int) event.getX()) + "," + (int)event.getY() + "," + doClick + ",");
-        initApp();
+		if (mythr.isConnected()) {
+			mythr.sendData(((int) event.getX()) + "," + (int) event.getY() + "," + doClick + ",");
+		} else {
+			initApp();
+		}
+
 		return true;
 	}
 
-    private  void initApp() {
-        if(mythr.isConnected()) {
-            Log.i("onCreate", " --- creating a new connection --- ");
-            try {Thread.sleep(100);} catch (Exception e) {}
-            new Thread(new myThreadPool()).start();
-            Log.w("onCreate", " --- creating a new connection --- ");
-        }
+    private void initApp() {
+		new Thread(new myThreadPool()).start();
     }
 }

@@ -18,16 +18,21 @@ class  myThreadPool implements Runnable {
 
     @Override
     public void run() {
-        Log.d("ClientThread", "run");
-        InetSocketAddress scktAddrss = new InetSocketAddress(SERVER_IP, SERVERPORT);
-        mynet.initSocket(scktAddrss, SERERTIMEOUT);
+        Log.w("ClientThread", "--- run new myNetworkPool from init()");
+        InetSocketAddress socketAddress = new InetSocketAddress(SERVER_IP, SERVERPORT);
+        mynet.initSocket(socketAddress, SERERTIMEOUT);
+    }
+
+    public void initSocket () {
+        mynet.initSocket();
     }
 
     public boolean isConnected() {
-        return !mynet.isConnected();
+        return mynet.isConnected();
     }
 
     public void sendData(String data) {
         mynet.sendData(data);
+        new myNetworkPool().execute("");
     }
 }

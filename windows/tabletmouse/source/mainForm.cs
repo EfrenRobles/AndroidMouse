@@ -70,8 +70,8 @@ namespace tabletmouse.source {
 			short[] buffer = { 0, 0 };
 
 			//getMonitorResolution(buffer);
-			txtMRX.Text = buffer[0].ToString();
-			txtMRY.Text = buffer[1].ToString();
+			txtMRX.Text = SystemInformation.VirtualScreen.Width.ToString();
+			txtMRY.Text = SystemInformation.VirtualScreen.Height.ToString();
 
 			//getAndroidResolution(buffer);
 			txtARX.Text = buffer[0].ToString();

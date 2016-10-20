@@ -5,6 +5,8 @@ using System.Net.Sockets;
 namespace Engine {
 
 	public class myNetworkPool {
+		myInterfacePool mynpo = new myInterfacePool();
+
 		private string encryptionKey = "MZygpewJsCpRrfOr";
 		private myAESPool AES;
 
@@ -19,7 +21,7 @@ namespace Engine {
 		private const int CBUFFER_RETURN_SIZE = 1;
 
 		private byte[] Buffer = new byte[CBUFFER_SIZE];
-		private byte[] buffReturn = new byte[CBUFFER_RETURN_SIZE] { 0 };
+		private byte[] buffReturn = new byte[CBUFFER_RETURN_SIZE] { 0x65 };
 		private String Result = "";
 		private Socket sck, acc;
 
@@ -53,22 +55,21 @@ namespace Engine {
 			p_statusConecction = CONNECTION_STATUS.CONNECTED;
 			acc.SendTimeout = 500;
 
-
 			while (acc.Connected) {
 				System.Threading.Thread.Sleep(10);
 				try {
 					acc.Receive(Buffer, 0, Buffer.Length, 0);
 					Result = AES.DecryptFromBase64(Buffer);
-					Console.WriteLine(Result);
+					//Console.WriteLine(Result);
+					mynpo.moveMouse(Result);
 					acc.Send(buffReturn);
 				} catch (Exception e) {
 					acc.Close();
 					sck.Close();
-					Console.WriteLine(" --- connection is closed --- " + System.Text.Encoding.Default.GetString(Buffer)); 
+					Console.WriteLine(" --- last data recieved was: " + System.Text.Encoding.Default.GetString(Buffer));
+					Console.WriteLine(" --- try catch exception was: " + e.ToString());
 				}
-
 			}
-
 			p_statusConecction = CONNECTION_STATUS.DISCONECTED;
 		}
 

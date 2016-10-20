@@ -177,7 +177,7 @@
 			this.lblRawData.Name = "lblRawData";
 			this.lblRawData.Size = new System.Drawing.Size(79, 13);
 			this.lblRawData.TabIndex = 10;
-			this.lblRawData.Text = "1,0500,1303,1,";
+			this.lblRawData.Text = "1920,1080,1,";
 			// 
 			// mainForm
 			// 

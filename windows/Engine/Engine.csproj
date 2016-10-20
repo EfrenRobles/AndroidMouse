@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="myAESPool.cs" />
+    <Compile Include="myInterfacePool.cs" />
     <Compile Include="myNetworkPool.cs" />
     <Compile Include="myThreadPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,7 +8,7 @@ namespace Engine {
 
 		private ICryptoTransform rijndaelDecryptor;
 		// Replace me with a 16-byte key, share between Java and C#
-		private static byte[] rawSecretKey = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+		private byte[] rawSecretKey = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 		public myAESPool(string passphrase) {
 			byte[] passwordKey = encodeDigest(passphrase);
@@ -31,13 +31,11 @@ namespace Engine {
 			return DecryptFromBase64(result);
 		}
 
-
 		private byte[] encodeDigest(string text) {
 			MD5CryptoServiceProvider x = new System.Security.Cryptography.MD5CryptoServiceProvider();
 			byte[] data = Encoding.ASCII.GetBytes(text);
 			return x.ComputeHash(data);
 		}
-
 
 	}
 }
