@@ -88,7 +88,7 @@ namespace Engine {
 			IPAddress[] addr = ipEntry.AddressList;
 
 			for (int i = 0; i < addr.Length; i++) {
-				Console.WriteLine("Your local IP address is: " + addr[i].ToString());
+				Console.WriteLine("Your local IP address are: " + addr[i].ToString());
 			}
 		}
 

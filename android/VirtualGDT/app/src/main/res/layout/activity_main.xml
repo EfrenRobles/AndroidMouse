@@ -16,8 +16,8 @@
         android:id="@+id/lblVirtualGDT"
         android:text="@string/strProyecto"
         android:enabled="true"
-        android:textSize="55dp"
-        android:layout_marginTop="30dp"
+        android:textSize="50dp"
+        android:layout_marginTop="00dp"
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:layout_alignParentRight="true"
@@ -70,11 +70,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-
     <FrameLayout
         android:layout_width="200px"
         android:layout_height="300px"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/frameIP"
         android:layout_below="@+id/lblDescripcion"
         android:visibility="visible"
@@ -112,6 +111,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP1"
                 android:background="#ffffff"
@@ -134,6 +134,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP2"
                 android:background="#ffffff"
@@ -156,6 +157,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP3"
                 android:background="#ffffff"
@@ -178,6 +180,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP4"
                 android:background="#ffffff"
@@ -189,5 +192,6 @@
         </LinearLayout>
 
     </FrameLayout>
+
 
 </RelativeLayout>

@@ -17,9 +17,23 @@ public class Globals {
     public class netData {
         public String name;
         public String ip;
-        public short mask;
+        public int mask;
         public boolean auto;
+
+        public netData() {
+            resetData();
+        }
+
+        public void resetData() {
+            name = "";
+            ip = "";
+            mask = 0;
+            auto = false;
+        }
     }
+
+
+
 
     private String SERVER_IP = "127.0.0.1";
     private int SERVERPORT = 1800;
@@ -52,12 +66,15 @@ public class Globals {
 
     //----------------------------------------------------------------------------------------------
     public void initnetData() {
+        debug.WARN("myNetworkPool"," initnetData() ");
         for (byte i=0; i<NUMINTERFACE; i++) {
-            g_instance.netDataA[i] = new netData();
+            if (g_instance.netDataA[i] == null) {
+                g_instance.netDataA[i] = new netData();
+            }
         }
     }
 
-    public void fillNetDAta(String Name, String IP, short Mask) {
+    public void fillNetDAta(String Name, String IP, int Mask) {
 
         debug.WARN("myNetworkPool"," IP intf: " + Name);
         debug.ERR("myNetworkPool"," IP Address: " + IP);
@@ -77,7 +94,7 @@ public class Globals {
 
             if (g_instance.netDataA[i].mask > 23) {
                 g_instance.netDataA[i].auto = true;
-                debug.WARN("myNetworkPool","--- Auto True ---");
+                debug.WARN("myNetworkPool","--- Auto True with ip: " + IP + " on interface name: " + Name);
             } else {
                 g_instance.netDataA[i].auto = false;
                 debug.WARN("myNetworkPool","--- Auto False ---");

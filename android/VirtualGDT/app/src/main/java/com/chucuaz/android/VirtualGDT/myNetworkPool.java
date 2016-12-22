@@ -11,10 +11,13 @@ import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import java.util.List;
 
 
 /**
@@ -125,17 +128,27 @@ public class myNetworkPool extends AsyncTask {
     private void getIPs() {
         try {
             Globals.getInstance().initnetData();
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-                        Globals.getInstance().fillNetDAta(intf.getName(),inetAddress.getHostAddress(),intf.getInterfaceAddresses().get(1).getNetworkPrefixLength());
-                    }
+
+            Enumeration<NetworkInterface> theIntfList = NetworkInterface.getNetworkInterfaces();
+
+            List<InterfaceAddress> theAddrList = null;
+            NetworkInterface Intf = null;
+            InetAddress inetAddress = null;
+
+            while (theIntfList.hasMoreElements()) {
+                Intf = theIntfList.nextElement();
+                theAddrList = Intf.getInterfaceAddresses();
+
+                for (InterfaceAddress intAddr : theAddrList) {
+                    inetAddress = intAddr.getAddress();
+
+                   // if (inetAddress.isLoopbackAddress()  && inetAddress instanceof Inet4Address) {
+                        Globals.getInstance().fillNetDAta(Intf.getDisplayName(), inetAddress.getHostAddress(), (intAddr.getNetworkPrefixLength()));
+                    //}
                 }
             }
-        } catch (Exception ex) {
-            debug.ERR("IP Address", ex.toString());
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
    }
 
@@ -148,10 +161,10 @@ public class myNetworkPool extends AsyncTask {
 
     private boolean pingServer(int i ) {
         if (Globals.getInstance().netDataA[i].auto) {
-            //debug.ERR("ClientThread", "--- pingServer test with : " + Globals.getInstance().netDataA[i].ip);
+            debug.ERR("ClientThread", "--- pingServer test with : " + Globals.getInstance().netDataA[i].ip);
             String[] parts = Globals.getInstance().netDataA[i].ip.split("\\.", 4);
 
-            for (int j = 1; j < 256; j++) {
+            for (int j = 1; j < 255; j++) {
                 String ipserver = parts[0] + "." + parts[1] + "." + parts[2] + "." + j;
 
                 Globals.getInstance().setSERVER_IP(ipserver);

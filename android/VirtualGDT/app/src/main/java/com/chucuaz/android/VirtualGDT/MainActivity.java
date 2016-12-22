@@ -1,24 +1,19 @@
 package com.chucuaz.android.VirtualGDT;
 
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.EditText;
+
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnConectar;
     Button btnAyuda;
-    TextView txtIP1;
-    TextView txtIP2;
-    TextView txtIP3;
-    TextView txtIP4;
+    private int oldValue;
 
 
     @Override
@@ -31,13 +26,11 @@ public class MainActivity extends AppCompatActivity {
         statusSemaforo(false);
         frameIP(true);
 
-
-        ///-----------------------
-        txtIP1 = (TextView) findViewById(R.id.txtIP1);
-        txtIP2 = (TextView) findViewById(R.id.txtIP2);
-        txtIP3 = (TextView) findViewById(R.id.txtIP3);
-        txtIP4 = (TextView) findViewById(R.id.txtIP4);
-        //-------------------------
+        //to validate the text box ip value
+        validateTxt((EditText) findViewById(R.id.txtIP1));
+        validateTxt((EditText) findViewById(R.id.txtIP2));
+        validateTxt((EditText) findViewById(R.id.txtIP3));
+        validateTxt((EditText) findViewById(R.id.txtIP4));
 
         //Initialization button
         btnConectar = (Button) findViewById(R.id.btnConectar);
@@ -94,5 +87,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //To validate max value of the text.
+    private void validateTxt(final EditText txtIp) {
+        txtIp.addTextChangedListener(new IPFilterMinMax(txtIp) {
+            @Override
+            public void validate(EditText ev, String text) {
+                debug.DBG("MainActity", "-- this is the value of txt :  " + txtIp.getText()+ "  ---");
+                if (!txtIp.getText().toString().equals("")) {
+                    int newValue = Integer.parseInt(txtIp.getText().toString());
+                    if (newValue < 256 ) {
+                        oldValue = newValue;
+                    } else {
+                        txtIp.setText( Integer.toString(oldValue));
+                        txtIp.setSelection(2);
 
+                    }
+                }
+            }
+        });
+    }
 }

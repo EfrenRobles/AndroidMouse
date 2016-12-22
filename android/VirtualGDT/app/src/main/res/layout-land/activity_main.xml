@@ -16,9 +16,12 @@
         android:id="@+id/lblVirtualGDT"
         android:text="@string/strProyecto"
         android:enabled="true"
-        android:textSize="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:textSize="60dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -47,8 +50,13 @@
         android:layout_height="wrap_content"
         android:text="@string/strDescripcion"
         android:id="@+id/lblDescripcion"
-        android:layout_below="@+id/lblVirtualGDT"
-        android:layout_centerHorizontal="true" />
+        android:textSize="18dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lblVirtualGDT" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -62,24 +70,22 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:id="@+id/frameIP"
         android:visibility="visible"
         android:background="#d2be5b"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentEnd="false"
-        android:layout_above="@+id/imageView"
-        android:layout_below="@+id/lblDescripcion"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_above="@+id/btnConectar">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lblConectar"
+            android:layout_margin="5dp"
             android:layout_below="@+id/lblVirtualGDT"
             android:layout_centerHorizontal="true"
             android:text="@string/strConectate"
@@ -89,17 +95,19 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:id="@+id/layIP"
             android:baselineAligned="false"
             android:measureWithLargestChild="false"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP1"
                 android:background="#ffffff"
@@ -123,6 +131,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP2"
                 android:background="#ffffff"
@@ -145,6 +154,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP3"
                 android:background="#ffffff"
@@ -167,6 +177,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 android:ems="10"
                 android:id="@+id/txtIP4"
                 android:background="#ffffff"
@@ -181,6 +192,7 @@
 
 
     </FrameLayout>
+
 
 
 </RelativeLayout>

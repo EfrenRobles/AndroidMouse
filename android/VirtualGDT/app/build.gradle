@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '24.0.2'
 
 /* this code is for anto increment build version*/
 
@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId "com.chucuaz.android.VirtualGDT"
-        minSdkVersion 14
+        minSdkVersion 10
         targetSdkVersion 24
         versionCode 1
         versionName "0.2." + versionBuild
@@ -50,14 +50,26 @@ android {
     }
 
     //--------------------------------------------------------------------------------------------------
-    /* auto increment build number for Debug build*/
+    /*
+    //auto increment build number for Debug build
     assembleDebug << {
         autoIncrementBuildNumber()
     }
 
-    /* auto increment build number for Release build*/
+    // auto increment build number for Release build
     assembleRelease << {
         autoIncrementBuildNumber()
+    }
+  */
+    //--------------------------------------------------------------------------------------------------
+    task increaseVersion() << {
+        autoIncrementBuildNumber()
+    }
+
+    tasks.whenTaskAdded { task ->
+        if (task.name == 'assembleDebug' || task.name == 'assembleRelease') {
+            task.finalizedBy 'increaseVersion'
+        }
     }
     //--------------------------------------------------------------------------------------------------
 
