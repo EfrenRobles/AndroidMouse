@@ -12,18 +12,16 @@ class  myThreadPool implements Runnable {
 
     @Override
     public void run() {
-        int SERERTIMEOUT = 50;
-        //debug.WARN("ClientThread", "--- run new myNetworkPool from init( SERVERPORT= " + Globals.getInstance().getSERVERPORT() + " SERERTIMEOUT= " + SERERTIMEOUT + " SERVER_IP= " + Globals.getInstance().getSERVER_IP()  + " )");
+        //Globals.getInstance().setSERVER_IP(serverIP); //debe de ir en la pantalla de coneccion.
+
         InetSocketAddress socketAddress = new InetSocketAddress(Globals.getInstance().getSERVER_IP() , Globals.getInstance().getSERVERPORT());
-        Globals.getInstance().getMynet().initSocket(socketAddress, SERERTIMEOUT);
+        Globals.getInstance().getMynet().initSocket(socketAddress);
+
+        debug.VERB("ClientThread", " --- SERVER_IP: " + Globals.getInstance().getSERVER_IP() + " --- ");
     }
 
-    public void initSocket (String serverIP, int serverPort) {
-        Globals.getInstance().setSERVER_IP(serverIP); //debe de ir en la pantalla de coneccion.
-        Globals.getInstance().setSERVERPORT(serverPort);
-
+    public void initSocket () {
         Globals.getInstance().getMynet().initSocket();
-        debug.VERB("ClientThread", " --- SERVER_IP: " + Globals.getInstance().getSERVER_IP() + " --- ");
     }
 
     public boolean isConnected() {

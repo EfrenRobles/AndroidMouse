@@ -5,7 +5,7 @@
     <string name="strConectate">Por favor ingresa la IP del servirdor para continuar</string>
 
     <string name="strConectar">Conectar</string>
+    <string name="strDesconectar">Desconectar</string>
+    <string name="strDibujo">Dibujar</string>
     <string name="strAyuda">Ayuda</string>
-
-
 </resources>

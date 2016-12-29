@@ -23,28 +23,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/strConectar"
-        android:id="@+id/btnConectar"
-        android:layout_marginRight="26dp"
-        android:layout_marginEnd="26dp"
-        android:textSize="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btnAyuda"
-        android:layout_toStartOf="@+id/btnAyuda" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/strAyuda"
-        android:id="@+id/btnAyuda"
-        android:textSize="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,6 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/lblVirtualGDT" />
+
 
     <ImageView
         android:layout_width="wrap_content"
@@ -78,7 +57,7 @@
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/imageView"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_above="@+id/btnConectar">
+        android:layout_above="@+id/btnAyuda">
 
 
         <TextView
@@ -189,10 +168,35 @@
         </LinearLayout>
 
 
-
-
     </FrameLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strDesconectar"
+        android:id="@+id/btnConectar"
+        android:textSize="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strDibujo"
+        android:id="@+id/btnDibujar"
+        android:textSize="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btnAyuda"
+        android:layout_toStartOf="@+id/btnAyuda" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strAyuda"
+        android:id="@+id/btnAyuda"
+        android:textSize="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

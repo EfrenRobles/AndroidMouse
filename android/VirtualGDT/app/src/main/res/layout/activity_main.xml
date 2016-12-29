@@ -10,6 +10,7 @@
     tools:context="com.chucuaz.android.VirtualGDT.MainActivity"
     android:background="@color/material_deep_teal_500">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,29 +26,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/strConectar"
-        android:id="@+id/btnConectar"
-        android:textSize="30dp"
-        android:layout_above="@+id/btnAyuda"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/strAyuda"
-        android:id="@+id/btnAyuda"
-        android:layout_marginBottom="37dp"
-        android:textSize="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/btnConectar"
-        android:layout_alignStart="@+id/btnConectar"
-        android:layout_alignRight="@+id/btnConectar"
-        android:layout_alignEnd="@+id/btnConectar" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,18 +39,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/semaforo_rojo"
-        android:layout_alignTop="@+id/btnConectar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <FrameLayout
         android:layout_width="200px"
-        android:layout_height="300px"
+        android:layout_height="200px"
         android:layout_marginTop="20dp"
         android:id="@+id/frameIP"
         android:layout_below="@+id/lblDescripcion"
@@ -86,7 +55,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="20dp"
             android:id="@+id/lblConectar"
             android:layout_below="@+id/lblVirtualGDT"
             android:layout_centerHorizontal="true"
@@ -99,7 +68,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="bottom|center_horizontal"
             android:transitionGroup="false"
             android:touchscreenBlocksFocus="false"
@@ -192,6 +161,61 @@
         </LinearLayout>
 
     </FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/semaforo_rojo"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strDibujo"
+        android:id="@+id/btnDibujar"
+        android:textSize="30dp"
+        android:layout_above="@+id/btnAyuda"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/btnConectar"
+        android:layout_alignStart="@+id/btnConectar" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strAyuda"
+        android:id="@+id/btnAyuda"
+        android:textSize="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/btnDibujar"
+        android:layout_alignStart="@+id/btnDibujar" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strConectar"
+        android:id="@+id/btnConectar"
+        android:textSize="30dp"
+        android:layout_above="@+id/btnDibujar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ToggleButton
+        android:id="@+id/togglebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:textOn="@string/strDesconectar"
+        android:textOff="@string/strConectar"
+        android:onClick="onToggleClicked"
+        android:layout_above="@+id/btnConectar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

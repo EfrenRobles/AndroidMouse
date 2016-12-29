@@ -12,8 +12,6 @@ public class DrawActivity extends AppCompatActivity {
 
 
 	public static DrawActivity mainContext;
-	private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
 	private int doClick = 0;
 	private static String deviceScreensize = "";
 
@@ -30,9 +28,6 @@ public class DrawActivity extends AppCompatActivity {
 
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-		//initPermission();
-		Globals.getInstance().getMythr().initSocket("192.168.42.2", 1800);
 
 		deviceScreensize = metrics.widthPixels + "," + metrics.heightPixels + "," + 2 + ",";
 

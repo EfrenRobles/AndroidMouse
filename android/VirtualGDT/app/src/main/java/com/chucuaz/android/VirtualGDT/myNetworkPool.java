@@ -1,6 +1,7 @@
-package com.chucuaz.android.VirtualGDT;
 
+package com.chucuaz.android.VirtualGDT;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -71,12 +72,24 @@ public class myNetworkPool extends AsyncTask {
         findServidor(); //busca al servidor e intenta conectarse
     }
 
-    public void initSocket(final InetSocketAddress scatAddress, final int SERVER_TIME_OUT) {
+    public void initSocket(final InetSocketAddress scatAddress) {
+
+        if (l_ready) {
+            l_ready = false;
+            try {
+                socket.close();
+                debug.WARN("ClientThread", "connection is closed thank you ");
+            } catch (Exception e1) {
+                debug.ERR("ClientThread", "connection problem 2:" + e1.toString());
+            }
+            SystemClock.sleep(500);
+        }
+
         //debug.INFO("ClientThread", " --- begin initSocket(InetSocketAddress, int); --- ");
         try {
             socket = new Socket();
             //debug.WARN("ClientThread", " --- initSocket step 1 --- ");
-            socket.connect(scatAddress, Globals.getInstance().SERVER_TIME_OUT);
+            socket.connect(scatAddress, Globals.getInstance().getSERVERTIMEOUT());
 
             debug.WARN("ClientThread", " --- initSocket() --> success connection <--- ");
             Globals.getInstance().setPingStatus(true);
@@ -92,6 +105,7 @@ public class myNetworkPool extends AsyncTask {
                 debug.ERR("ClientThread", "connection problem 2:" + e1.toString());
             }
         }
+
         Globals.getInstance().setConnectionStatus(l_ready);
         //debug.INFO("ClientThread", " --- end initSocket --- ");
 

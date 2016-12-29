@@ -26,6 +26,8 @@
     <string name="strConectate">Please enter the server IP to continue</string>
 
     <string name="strConectar">Connect</string>
+    <string name="strDesconectar">Disconnect</string>
+    <string name="strDibujo">Draw</string>
     <string name="strAyuda">Help</string>
 
 

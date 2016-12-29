@@ -1,7 +1,5 @@
 package com.chucuaz.android.VirtualGDT;
 
-import java.sql.Struct;
-
 /**
  * Created by efren.robles on 7/20/2016.
  */
@@ -32,12 +30,9 @@ public class Globals {
         }
     }
 
-
-
-
     private String SERVER_IP = "127.0.0.1";
-    private int SERVERPORT = 1800;
-    final public int SERVER_TIME_OUT = 50;
+    final private int SERVERPORT = 1800;
+    final private int SERVER_TIME_OUT = 50;
 
     public final String USB0 = "usb0";      //priority 1
     public final String RNDIS = "rndis0";   //priority 2
@@ -57,6 +52,8 @@ public class Globals {
     }
 
     public boolean getConnectionStatus() {
+        //debug.INFO("ClientThread", " --- getConnectionStatus( " + Globals.getInstance().getConnectionStatus() + " ); --- ");
+        debug.INFO("ClientThread", " --- isConnected( " + isConnected + " ); --- ");
         return isConnected;
     }
 
@@ -130,12 +127,12 @@ public class Globals {
         return SERVER_IP;
     }
 
-    public void setSERVERPORT(int server_port) {
-        SERVERPORT = server_port;
-    }
-
     public int getSERVERPORT() {
         return SERVERPORT;
+    }
+
+    public int getSERVERTIMEOUT() {
+        return SERVER_TIME_OUT;
     }
 
     public String convertPrefixtoIp(int index) {
