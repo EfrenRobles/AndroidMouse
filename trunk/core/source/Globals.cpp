@@ -40,6 +40,7 @@ Globals *Globals::getInstance(void) {
 		s_instance = new Globals();
 		s_instance->iResult = SOCKET_ERROR;
 		s_instance->id_Status = ID_INIT;
+		s_instance->onClick = false;
 	}
 	return s_instance;
 }
@@ -85,42 +86,42 @@ bool Globals::getConeccionStatus(void) {
 
 bool Globals::startApp(void) {
 	//probablement meter esto en un hilo.
-	bool retult = false;
-	id_Status = onInit();
 
-	if (id_Status == ID_ISERVER) {
-		id_Status = ipServer();
-	}
+	while (true) {
+		id_Status = onInit();
 
-	if (id_Status == ID_CSOCKET) {
-		id_Status = creatingSocket();
-	}
+		if (id_Status == ID_ISERVER) {
+			id_Status = ipServer();
+		}
 
-	if (id_Status == ID_ISOCKET) {
-		id_Status = initSocket();
-	}
+		if (id_Status == ID_CSOCKET) {
+			id_Status = creatingSocket();
+		}
 
-	if (id_Status == ID_LSOCKET) {
-		id_Status = listenSocket();
-	}
+		if (id_Status == ID_ISOCKET) {
+			id_Status = initSocket();
+		}
 
-	if (id_Status == ID_ACONN) {
-		id_Status = acceptingConnection();
-	}
+		if (id_Status == ID_LSOCKET) {
+			id_Status = listenSocket();
+		}
 
-	if (id_Status == ID_RDATA) {
-		id_Status = receiveData();
-	}
+		if (id_Status == ID_ACONN) {
+			id_Status = acceptingConnection();
+		}
 
-	if (id_Status == ID_CCONN) {
-		id_Status = closeConnection();
-	}
+		if (id_Status == ID_RDATA) {
+			id_Status = receiveData();
+		}
 
-	if (id_Status == ID_FAIL) {
+		if (id_Status == ID_CCONN) {
+			id_Status = closeConnection();
+		}
+
 		id_Status = anyFail();
 	}
 
-	return retult;
+	return true;
 }
 
 GSTATES Globals::onInit(void) {
@@ -255,15 +256,34 @@ void Globals::setMousePos(char *data) {
 	char *temp;
 	char *context = NULL;
 
-	temp = strtok_s(data, ",;", &context);
+	temp = strtok_s(data, ",", &context);
 	pos.X = atoi(temp) + oRes.X;
-	temp = strtok_s(NULL, ",;", &context);
+	temp = strtok_s(NULL, ",", &context);
 	pos.Y = atoi(temp) + oRes.Y;
+	temp = strtok_s(NULL, ",", &context);
+	onClick = atoi(temp);
 
+	leftClick(onClick);
 	SetCursorPos(pos.X, pos.Y);
 }
 
 void Globals::leftClick(bool isPresed) {
+	if (isClickOn) {
+		if (isPresed == 0) {
+			isClickOn = false;
+		} else {
+			return;
+		}
+	} else {
+		if (isPresed == 1) {
+			isClickOn = true;
+		} else {
+			return;
+		}
+	}
+
+
+
 	if (isPresed) {
 		Input.type = INPUT_MOUSE;									// Let input know we are using the mouse.
 		Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;					// We are setting left mouse button down.

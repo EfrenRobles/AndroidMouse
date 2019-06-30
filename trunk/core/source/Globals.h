@@ -50,6 +50,8 @@ public:
 
 	// Desc    : start the main class engine
 	// Returns : true is all be alright false if fail.
+
+public:
 	bool		startApp				(void);
 
 	// Desc    : get the resolution from the monitor on windows.
@@ -94,6 +96,8 @@ private:
 	int		recvbuflen;
 
 	ivector2	oRes;
+	bool		onClick;
+	bool		isClickOn;
 
 
 	// Desc    : set the mouse possition computer's screen.
