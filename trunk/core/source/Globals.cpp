@@ -4,6 +4,10 @@
 INPUT    Input = {0};													// Create our input.
 
 #pragma region ------------------------ export dll ------------------------
+EXPORT_DLL bool startApp(void) {
+	return Globals::getInstance()->startApp();
+}
+
 EXPORT_DLL bool getConeccionStatus(void) {
 	return Globals::getInstance()->getConeccionStatus();
 }
@@ -26,7 +30,7 @@ EXPORT_DLL int getOffsetResolution(short *buffer) {
 	Globals::getInstance()->setOffsetResolution(buffer[0], buffer[1]);
 	return 0;
 }
-#pragma enregion
+#pragma endregion
 
 #pragma region ------------------------ single instance ------------------------
 Globals *Globals::s_instance = NULL;
@@ -35,6 +39,7 @@ Globals *Globals::getInstance(void) {
 	if (!s_instance) {
 		s_instance = new Globals();
 		s_instance->iResult = SOCKET_ERROR;
+		s_instance->id_Status = ID_INIT;
 	}
 	return s_instance;
 }
@@ -64,8 +69,8 @@ ivector2 Globals::getAndroidResolution(void) {
 }
 
 void Globals::setOffsetResolution(short X, short Y) {
-	offsetResolution.X = X;
-	offsetResolution.Y = Y;
+	oRes.X = X;
+	oRes.Y = Y;
 }
 
 bool Globals::getConeccionStatus(void) {
@@ -77,9 +82,50 @@ bool Globals::getConeccionStatus(void) {
 #pragma endregion
 
 #pragma region ------------------------ socket events ------------------------
-bool Globals::onInit(void) {
 
-	offsetResolution = ivector2();
+bool Globals::startApp(void) {
+	//probablement meter esto en un hilo.
+	bool retult = false;
+	id_Status = onInit();
+
+	if (id_Status == ID_ISERVER) {
+		id_Status = ipServer();
+	}
+
+	if (id_Status == ID_CSOCKET) {
+		id_Status = creatingSocket();
+	}
+
+	if (id_Status == ID_ISOCKET) {
+		id_Status = initSocket();
+	}
+
+	if (id_Status == ID_LSOCKET) {
+		id_Status = listenSocket();
+	}
+
+	if (id_Status == ID_ACONN) {
+		id_Status = acceptingConnection();
+	}
+
+	if (id_Status == ID_RDATA) {
+		id_Status = receiveData();
+	}
+
+	if (id_Status == ID_CCONN) {
+		id_Status = closeConnection();
+	}
+
+	if (id_Status == ID_FAIL) {
+		id_Status = anyFail();
+	}
+
+	return retult;
+}
+
+GSTATES Globals::onInit(void) {
+
+	oRes = ivector2();
 
 	lSocket = INVALID_SOCKET;
 	cSocket = INVALID_SOCKET;
@@ -91,12 +137,12 @@ bool Globals::onInit(void) {
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
 		printf("WSAStartup failed with error: %d\n", iResult);
-		return false;
+		return ID_FAIL;
 	}
-	return true;
+	return ID_ISERVER;
 }
 
-bool Globals::ipServer(void) {
+GSTATES Globals::ipServer(void) {
 	ZeroMemory(&hints, sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
@@ -107,113 +153,114 @@ bool Globals::ipServer(void) {
 	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed with error: %d\n", iResult);
-		WSACleanup();
-		return false;
+		//WSACleanup();
+		return ID_FAIL;
 	}
-	return true;
+	return ID_CSOCKET;
 }
 
-bool Globals::creatingSocket(void) {
+GSTATES Globals::creatingSocket(void) {
 	lSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 	if (lSocket == INVALID_SOCKET) {
 		printf("socket failed with error: %ld\n", WSAGetLastError());
-		freeaddrinfo(result);
-		WSACleanup();
-		return false;
+		return ID_FAIL;
 	}
-	return true;
+	return ID_ISOCKET;
 }
 
-bool Globals::initSocket(void) {
+GSTATES Globals::initSocket(void) {
 	iResult = bind(lSocket, result->ai_addr, (int)result->ai_addrlen);
 	if (iResult == SOCKET_ERROR) {
 		printf("bind failed with error: %d\n", WSAGetLastError());
 		freeaddrinfo(result);
-		closesocket(lSocket);
-		WSACleanup();
-		return false;
+		return ID_FAIL;
 	}
 
 	freeaddrinfo(result);
-	return true;
+	return ID_LSOCKET;
 }
 
 
-bool Globals::listenSocket(void) {
+GSTATES Globals::listenSocket(void) {
 	iResult = listen(lSocket, SOMAXCONN);
 	if (iResult == SOCKET_ERROR) {
 		printf("listen failed with error: %d\n", WSAGetLastError());
-		closesocket(lSocket);
-		WSACleanup();
-		return false;
+		return ID_FAIL;
 	}
-	return true;
+	return ID_ACONN;
 }
 
-bool Globals::acceptingConnection(void) {
+GSTATES Globals::acceptingConnection(void) {
 	cSocket = accept(lSocket, NULL, NULL);
 	if (cSocket == INVALID_SOCKET) {
 		printf("accept failed with error: %d\n", WSAGetLastError());
-		closesocket(lSocket);
-		WSACleanup();
-		return false;
+		return ID_FAIL;
 	}
 
 	// No longer need server socket
 	closesocket(lSocket);
-	return true;
+	return ID_RDATA;
 }
 
-bool Globals::receiveData(void) {
+GSTATES Globals::receiveData(void) {
 	do {
 		iResult = recv(cSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
 			printf("Bytes received: %d\n", iResult);
-
+			//printf("Data received: %s\n", recvbuf);
+			setMousePos(recvbuf);
 			// Echo the buffer back to the sender
 			iSendResult = send(cSocket, recvbuf, iResult, 0);
 			if (iSendResult == SOCKET_ERROR) {
 				printf("send failed with error: %d\n", WSAGetLastError());
-				closesocket(cSocket);
-				WSACleanup();
-				return false;
+				return ID_FAIL;
 			}
 			printf("Bytes sent: %d\n", iSendResult);
 		} else if (iResult == 0)
 			printf("Connection closing...\n");
 		else {
 			printf("recv failed with error: %d\n", WSAGetLastError());
-			closesocket(cSocket);
-			WSACleanup();
-			return false;
+			return ID_FAIL;
 		}
 
 	} while (iResult > 0);
 
-	return true;
+	return ID_CCONN;
 
 }
 
-bool Globals::closeConnection(void) {
+GSTATES Globals::closeConnection(void) {
 	iResult = shutdown(cSocket, SD_SEND);
-
-	closesocket(cSocket);
-	WSACleanup();
 
 	if (iResult == SOCKET_ERROR) {
 		printf("shutdown failed with error: %d\n", WSAGetLastError());
-		return false;
+		return ID_FAIL;
 	}
 
 
-	return true;
+	return ID_CSOCKET; //not sure if ID_LSOCKET or ID_CSOCKET
+}
+GSTATES Globals::anyFail(void) {
+	closesocket(cSocket);
+	WSACleanup();
+
+	return ID_CSOCKET;
 }
 #pragma endregion
 
 #pragma region ------------------------ cursor events ------------------------
 
-void Globals::setMousePos(uint posX, uint posY) {
-	SetCursorPos(posX, posY);
+void Globals::setMousePos(char *data) {
+	ivector2 pos = ivector2();
+	char *temp;
+	char *context = NULL;
+
+	temp = strtok_s(data, ",;", &context);
+	pos.X = atoi(temp) + oRes.X;
+	temp = strtok_s(NULL, ",;", &context);
+	pos.Y = atoi(temp) + oRes.Y;
+
+	SetCursorPos(pos.X, pos.Y);
 }
 
 void Globals::leftClick(bool isPresed) {

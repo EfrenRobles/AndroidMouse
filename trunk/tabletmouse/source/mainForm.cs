@@ -11,10 +11,12 @@ using System.Runtime.InteropServices;
 
 
 
-
 namespace tabletmouse.source {
 
+
+
 	public partial class mainForm : Form {
+
 
 		[DllImport("core.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern bool getConeccionStatus();
@@ -59,7 +61,6 @@ namespace tabletmouse.source {
 			getAndroidResolution(buffer);
 			txtARX.Text = buffer[0].ToString();
 			txtARY.Text = buffer[1].ToString();
-
 		}
 	}
 }
