@@ -69,13 +69,14 @@ public class myNetworkPool extends AsyncTask {
     }
 
     public void initSocket(final InetSocketAddress scatAddress, final int SERVER_TIME_OUT) {
-        debug.INFO("ClientThread", " --- begin initSocket(InetSocketAddress, int); --- ");
+        //debug.INFO("ClientThread", " --- begin initSocket(InetSocketAddress, int); --- ");
         try {
             socket = new Socket();
-            debug.WARN("ClientThread", " --- initSocket step 1 --- ");
+            //debug.WARN("ClientThread", " --- initSocket step 1 --- ");
             socket.connect(scatAddress, Globals.getInstance().SERVER_TIME_OUT);
 
-            debug.WARN("ClientThread", " --- initSocket step 2 --- ");
+            debug.WARN("ClientThread", " --- initSocket() --> success connection <--- ");
+            Globals.getInstance().setPingStatus(true);
             System.setProperty("http.keepAlive", "false");
             l_ready = true;
         } catch (Throwable e) {
@@ -83,13 +84,13 @@ public class myNetworkPool extends AsyncTask {
             l_ready = false;
             try {
                 socket.close();
-                debug.WARN("ClientThread", "connection is closed thank you ");
+                //debug.WARN("ClientThread", "connection is closed thank you ");
             } catch (Exception e1) {
                 debug.ERR("ClientThread", "connection problem 2:" + e1.toString());
             }
         }
         Globals.getInstance().setConnectionStatus(l_ready);
-        debug.INFO("ClientThread", " --- end initSocket --- ");
+        //debug.INFO("ClientThread", " --- end initSocket --- ");
 
     }
 
@@ -139,14 +140,15 @@ public class myNetworkPool extends AsyncTask {
    }
 
     private void findServidor() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < Globals.getInstance().NUMINTERFACE; i++) {
             debug.ERR("ClientThread", "--- findServidor with i: " + i);
             if (pingServer(i)) return;
         }
     }
 
     private boolean pingServer(int i ) {
-        if (Globals.getInstance().netDataA[0].auto) {
+        if (Globals.getInstance().netDataA[i].auto) {
+            //debug.ERR("ClientThread", "--- pingServer test with : " + Globals.getInstance().netDataA[i].ip);
             String[] parts = Globals.getInstance().netDataA[i].ip.split("\\.", 4);
 
             for (int j = 1; j < 256; j++) {
@@ -161,7 +163,7 @@ public class myNetworkPool extends AsyncTask {
                     e.printStackTrace();
                 }
 
-                if (Globals.getInstance().getConnectionStatus()) {
+                if (Globals.getInstance().getPingStatus()) {
                     debug.ERR("ClientThread", "--- ip server is :" + ipserver);
                     return true;
                 }

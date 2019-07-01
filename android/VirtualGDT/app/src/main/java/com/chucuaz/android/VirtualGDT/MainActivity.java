@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -14,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnConectar;
     Button btnAyuda;
-    ImageView imgSemaforo;
     TextView txtIP1;
     TextView txtIP2;
     TextView txtIP3;
@@ -26,8 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imgSemaforo = (ImageView) findViewById(R.id.imageView);
-        statusSemaforo();
+        debug.DBG("MainActity", "-- onCreate() ---");
+
+        statusSemaforo(false);
+        frameIP(true);
 
 
         ///-----------------------
@@ -44,11 +46,14 @@ public class MainActivity extends AppCompatActivity {
            @Override
            public void onClick(View v) {
                debug.DBG("MainActity", "-- this is the button is btnConectar ---");
-               imgSemaforo.setImageResource(R.drawable.semaforo_amarillo);
+               statusSemaforo(true);
 
-               Globals.getInstance().getMynet().initSocket();
+               if (Globals.getInstance().getPingStatus() == false) {
+                   Globals.getInstance().getMynet().initSocket();
+               }
 
-               statusSemaforo();
+               statusSemaforo(false);
+               frameIP(Globals.getInstance().getAutoConnectStatus());
 
            }
         });
@@ -58,20 +63,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 debug.DBG("MainActity", "-- this is the button is btnAyuda ---");
-                imgSemaforo.setImageResource(R.drawable.semaforo_verde);
+                statusSemaforo(true);
             }
         });
     }
 
 
-    private void statusSemaforo() {
-        if (Globals.getInstance().getConnectionStatus()) {
+    private void statusSemaforo(boolean isYellow) {
+
+        ImageView imgSemaforo;
+        imgSemaforo = (ImageView) findViewById(R.id.imageView);
+
+        if (isYellow) {
+            imgSemaforo.setImageResource(R.drawable.semaforo_amarillo);
+        } else if (Globals.getInstance().getConnectionStatus()) {
             imgSemaforo.setImageResource(R.drawable.semaforo_verde);
         } else {
             imgSemaforo.setImageResource(R.drawable.semaforo_rojo);
         }
     }
 
+    private void frameIP(boolean showit) {
+        FrameLayout layout = (FrameLayout)findViewById((R.id.frameIP));
+
+        if (!showit) {
+            layout.setVisibility(View.VISIBLE);
+        } else {
+            layout.setVisibility(View.GONE);
+        }
+
+    }
 
 
 }

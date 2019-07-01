@@ -12,6 +12,7 @@ public class Globals {
     private myThreadPool mythr = new myThreadPool();
 
     private boolean isConnected = false;
+    private boolean isServerPing = false;
 
     public class netData {
         public String name;
@@ -25,13 +26,22 @@ public class Globals {
     final public int SERVER_TIME_OUT = 50;
 
     public final String USB0 = "usb0";      //priority 1
-    public final String BTPAN = "bt-pan";   //priority 2
-    public final String WLAN0 = "wlan0";    //priority 3
+    public final String RNDIS = "rndis0";   //priority 2
+    public final String BTPAN = "bt-pan";   //priority 3
+    public final String WLAN0 = "wlan0";    //priority 4
 
-
-    public netData[] netDataA = new netData[3];
+    public final byte NUMINTERFACE = 4; //Numbers of interfaces
+    public netData[] netDataA = new netData[NUMINTERFACE];
 
     //----------------------------------------------------------------------------------------------
+    public boolean getPingStatus() {
+        return isServerPing;
+    }
+
+    public void setPingStatus(boolean data) {
+        isServerPing = data;
+    }
+
     public boolean getConnectionStatus() {
         return isConnected;
     }
@@ -42,9 +52,9 @@ public class Globals {
 
     //----------------------------------------------------------------------------------------------
     public void initnetData() {
-        g_instance.netDataA[0] = new netData();
-        g_instance.netDataA[1] = new netData();
-        g_instance.netDataA[2] = new netData();
+        for (byte i=0; i<NUMINTERFACE; i++) {
+            g_instance.netDataA[i] = new netData();
+        }
     }
 
     public void fillNetDAta(String Name, String IP, short Mask) {
@@ -54,11 +64,12 @@ public class Globals {
         debug.ERR("myNetworkPool"," IP netMask: " + convertPrefixtoIp(Mask));
 
 
-        if (Name.contains(USB0) || Name.contains(BTPAN) || Name.contains(WLAN0)) {
+        if (Name.contains(USB0) || Name.contains(RNDIS) || Name.contains(BTPAN) || Name.contains(WLAN0)) {
             int i = 0;
             if (Name.contains(USB0) ) i = 0;
-            if (Name.contains(BTPAN) ) i = 1;
-            if (Name.contains(WLAN0) ) i = 2;
+            if (Name.contains(RNDIS) ) i = 1;
+            if (Name.contains(BTPAN) ) i = 2;
+            if (Name.contains(WLAN0) ) i = 3;
 
             g_instance.netDataA[i].name = Name;
             g_instance.netDataA[i].ip = IP;
@@ -147,5 +158,19 @@ public class Globals {
             case 31: return "255.255.255.254";
             default: return "255.255.255.255";
         }
+    }
+
+    public boolean getAutoConnectStatus() {
+        int i = 0;
+        boolean result = false;
+
+        while (i < NUMINTERFACE) {
+            result = g_instance.netDataA[i].auto;
+            debug.INFO("myNetworkPool", "--- getAutoConnectStatus()->g_instance.netDataA[" + i + "].auto: " + g_instance.netDataA[i].auto);
+            if (result) i = 4;
+            i++;
+        }
+
+        return result;
     }
 }

@@ -13,7 +13,7 @@ class  myThreadPool implements Runnable {
     @Override
     public void run() {
         int SERERTIMEOUT = 50;
-        debug.WARN("ClientThread", "--- run new myNetworkPool from init( SERVERPORT= " + Globals.getInstance().getSERVERPORT() + " SERERTIMEOUT= " + SERERTIMEOUT + " SERVER_IP= " + Globals.getInstance().getSERVER_IP()  + " )");
+        //debug.WARN("ClientThread", "--- run new myNetworkPool from init( SERVERPORT= " + Globals.getInstance().getSERVERPORT() + " SERERTIMEOUT= " + SERERTIMEOUT + " SERVER_IP= " + Globals.getInstance().getSERVER_IP()  + " )");
         InetSocketAddress socketAddress = new InetSocketAddress(Globals.getInstance().getSERVER_IP() , Globals.getInstance().getSERVERPORT());
         Globals.getInstance().getMynet().initSocket(socketAddress, SERERTIMEOUT);
     }

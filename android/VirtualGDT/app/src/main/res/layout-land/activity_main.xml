@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.chucuaz.android.VirtualGDT.MainActivity"
-    android:background="#842ebfb0">
+    android:background="@color/material_deep_teal_500">
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/frameIP"
         android:visibility="visible"
         android:background="#d2be5b"
@@ -88,11 +88,13 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:id="@+id/layIP"
-            android:gravity="center">
+            android:baselineAligned="false"
+            android:measureWithLargestChild="false"
+            android:layout_marginTop="20dp">
 
             <EditText
                 android:layout_width="50dp"

@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.chucuaz.android.VirtualGDT.MainActivity"
-    android:background="#842ebfb0">
+    android:background="@color/material_deep_teal_500">
 
     <TextView
         android:layout_width="wrap_content"
