@@ -1,4 +1,4 @@
-﻿namespace tabletmouse.source {
+﻿namespace VirtualGDT.source {
 	partial class areaForm {
 		/// <summary>
 		/// Required designer variable.

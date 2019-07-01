@@ -3,7 +3,7 @@ using Engine;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace tabletmouse.source {
+namespace VirtualGDT.source {
 	public partial class mainForm : Form {
 		areaForm frm = new areaForm();
 		myInterfacePool myfp = new myInterfacePool();

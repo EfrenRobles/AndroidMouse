@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 //using System.Threading.Tasks;
 using System.Windows.Forms;
-using tabletmouse.source;
+using VirtualGDT.source;
 //using System.Threading;
 
 using System.Runtime.InteropServices;
 
-namespace tabletmouse {
+namespace VirtualGDT {
 	/*
 	public class MyThreadPool {
 

@@ -89,6 +89,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="source\areaForm.resx">
       <DependentUpon>areaForm.cs</DependentUpon>
@@ -113,6 +114,7 @@
     <None Include="Resources\Icon.png" />
   </ItemGroup>
   <ItemGroup>
+
     <Content Include="Resources\Logo.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace tabletmouse.source {
+namespace VirtualGDT.source {
 	public partial class areaForm : Form {
 
 		private bool dragging = false;
