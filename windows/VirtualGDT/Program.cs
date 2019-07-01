@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 using System.Windows.Forms;
 using tabletmouse.source;
-using System.Threading;
+//using System.Threading;
 
 using System.Runtime.InteropServices;
 

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Engine")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Virtual Graphics Drawing Tablet")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Chucuaz")]
 [assembly: AssemblyProduct("Engine")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("94dfad06-ac85-48d5-9646-9aacf873115d")]
+[assembly: Guid("142c51ce-37cb-4cbd-b230-cb3ca2003e96")]
 
 // Version information for an assembly consists of the following four values:
 //
