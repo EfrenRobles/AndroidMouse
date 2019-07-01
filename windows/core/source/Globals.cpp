@@ -4,6 +4,8 @@
 INPUT    Input = {0};													// Create our input.
 
 #pragma region ------------------------ export dll ------------------------
+
+#if USE_NETWORK_FUNCTIONS
 EXPORT_DLL bool startApp(void) {
 	return Globals::getInstance()->startApp();
 }
@@ -11,6 +13,13 @@ EXPORT_DLL bool startApp(void) {
 EXPORT_DLL bool getConeccionStatus(void) {
 	return Globals::getInstance()->getConeccionStatus();
 }
+
+EXPORT_DLL char *getRawData(char *buffer) {
+	buffer = Globals::getInstance()->getRawData();
+	printf("getRawData: %s\n", buffer);
+	return buffer;
+}
+#endif //USE_NETWORK_FUNCTIONS
 
 EXPORT_DLL int getMonitorResolution(short *buffer) {
 	ivector2 result = Globals::getInstance()->getMonitorResolution();
@@ -30,6 +39,7 @@ EXPORT_DLL int getOffsetResolution(short *buffer) {
 	Globals::getInstance()->setOffsetResolution(buffer[0], buffer[1]);
 	return 0;
 }
+
 #pragma endregion
 
 #pragma region ------------------------ single instance ------------------------
@@ -38,9 +48,13 @@ Globals *Globals::s_instance = NULL;
 Globals *Globals::getInstance(void) {
 	if (!s_instance) {
 		s_instance = new Globals();
+		s_instance->onClick = ID_FALSE;
+
+#if USE_NETWORK_FUNCTIONS
 		s_instance->iResult = SOCKET_ERROR;
 		s_instance->id_Status = ID_INIT;
-		s_instance->onClick = false;
+#endif //USE_NETWORK_FUNCTIONS
+
 	}
 	return s_instance;
 }
@@ -65,8 +79,8 @@ ivector2 Globals::getMonitorResolution(void) {
 }
 
 ivector2 Globals::getAndroidResolution(void) {
-	ivector2 result = ivector2();
-	return result;
+	//ivector2 result = ivector2();
+	return aRes;
 }
 
 void Globals::setOffsetResolution(short X, short Y) {
@@ -74,16 +88,22 @@ void Globals::setOffsetResolution(short X, short Y) {
 	oRes.Y = Y;
 }
 
+#if USE_NETWORK_FUNCTIONS
 bool Globals::getConeccionStatus(void) {
 	if (iResult != 0) {
 		return false;
 	} 
 	return true;
 }
+char *Globals::getRawData(void) {
+	return recRawData;
+}
+
+#endif //USE_NETWORK_FUNCTIONS
 #pragma endregion
 
 #pragma region ------------------------ socket events ------------------------
-
+#if USE_NETWORK_FUNCTIONS
 bool Globals::startApp(void) {
 	//probablement meter esto en un hilo.
 
@@ -181,7 +201,6 @@ GSTATES Globals::initSocket(void) {
 	return ID_LSOCKET;
 }
 
-
 GSTATES Globals::listenSocket(void) {
 	iResult = listen(lSocket, SOMAXCONN);
 	if (iResult == SOCKET_ERROR) {
@@ -207,9 +226,10 @@ GSTATES Globals::receiveData(void) {
 	do {
 		iResult = recv(cSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			printf("Bytes received: %d\n", iResult);
+			//printf("Bytes received: %d\n", iResult);
 			//printf("Data received: %s\n", recvbuf);
-			setMousePos(recvbuf);
+			recRawData = recvbuf;
+			setMousePos();
 			// Echo the buffer back to the sender
 			iSendResult = send(cSocket, recvbuf, iResult, 0);
 			if (iSendResult == SOCKET_ERROR) {
@@ -247,36 +267,38 @@ GSTATES Globals::anyFail(void) {
 
 	return ID_CSOCKET;
 }
+
+#endif //USE_NETWORK_FUNCTIONS
 #pragma endregion
 
 #pragma region ------------------------ cursor events ------------------------
 
-void Globals::setMousePos(char *data) {
-	ivector2 pos = ivector2();
+void Globals::setMousePos(char *recvbuf) {
+	aRes = ivector2();
 	char *temp;
 	char *context = NULL;
 
-	temp = strtok_s(data, ",", &context);
-	pos.X = atoi(temp) + oRes.X;
+	temp = strtok_s(recvbuf, ",", &context);
+	aRes.X = atoi(temp) + oRes.X;
 	temp = strtok_s(NULL, ",", &context);
-	pos.Y = atoi(temp) + oRes.Y;
+	aRes.Y = atoi(temp) + oRes.Y;
 	temp = strtok_s(NULL, ",", &context);
-	onClick = atoi(temp);
+	onClick = (CSTATES)atoi(temp);
 
-	leftClick(onClick);
-	SetCursorPos(pos.X, pos.Y);
+	//leftClick(onClick);
+	SetCursorPos(aRes.X, aRes.Y);
 }
 
-void Globals::leftClick(bool isPresed) {
-	if (isClickOn) {
-		if (isPresed == 0) {
-			isClickOn = false;
+void Globals::leftClick(CSTATES isPresed) {
+	if (isClickOn == ID_TRUE) {
+		if (isPresed == ID_FALSE) {
+			isClickOn = ID_FALSE;
 		} else {
 			return;
 		}
 	} else {
-		if (isPresed == 1) {
-			isClickOn = true;
+		if (isPresed == ID_TRUE) {
+			isClickOn = ID_TRUE;
 		} else {
 			return;
 		}

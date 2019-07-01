@@ -41,6 +41,9 @@
 			this.txtORX = new System.Windows.Forms.TextBox();
 			this.lblStatus = new System.Windows.Forms.Label();
 			this.tmrCheck = new System.Windows.Forms.Timer(this.components);
+			this.tmrPointer = new System.Windows.Forms.Timer(this.components);
+			this.label5 = new System.Windows.Forms.Label();
+			this.lblRawData = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -152,11 +155,37 @@
 			this.tmrCheck.Interval = 1000;
 			this.tmrCheck.Tick += new System.EventHandler(this.tmrCheck_Tick);
 			// 
+			// tmrPointer
+			// 
+			this.tmrPointer.Enabled = true;
+			this.tmrPointer.Interval = 1;
+			this.tmrPointer.Tick += new System.EventHandler(this.tmrPointer_Tick);
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(12, 18);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(55, 13);
+			this.label5.TabIndex = 9;
+			this.label5.Text = "Raw Data";
+			// 
+			// lblRawData
+			// 
+			this.lblRawData.AutoSize = true;
+			this.lblRawData.Location = new System.Drawing.Point(149, 18);
+			this.lblRawData.Name = "lblRawData";
+			this.lblRawData.Size = new System.Drawing.Size(79, 13);
+			this.lblRawData.TabIndex = 10;
+			this.lblRawData.Text = "1,0500,1303,1,";
+			// 
 			// mainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(292, 201);
+			this.Controls.Add(this.lblRawData);
+			this.Controls.Add(this.label5);
 			this.Controls.Add(this.lblStatus);
 			this.Controls.Add(this.txtORY);
 			this.Controls.Add(this.txtORX);
@@ -193,5 +222,8 @@
 		private System.Windows.Forms.TextBox txtORX;
 		private System.Windows.Forms.Label lblStatus;
 		private System.Windows.Forms.Timer tmrCheck;
+		private System.Windows.Forms.Timer tmrPointer;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label lblRawData;
 	}
 }

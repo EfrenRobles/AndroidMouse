@@ -9,7 +9,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 
 namespace tabletmouse {
-
+	/*
 	public class MyThreadPool {
 
 		[DllImport("core.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -45,6 +45,7 @@ namespace tabletmouse {
 			startApp();
 		}
 	}
+		*/
 
 	static class Program {
 		/// <summary>
@@ -55,12 +56,12 @@ namespace tabletmouse {
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			MyThreadPool test = new MyThreadPool();
-			test.LaunchThreads();
+			//MyThreadPool test = new MyThreadPool();
+			//test.LaunchThreads();
 
 			Application.Run(new mainForm());
 
-			test.KillThread(0);
+			//test.KillThread(0);
 		}
 	}
 }
