@@ -1,5 +1,5 @@
 
-package com.chucuaz.android.VirtualGDT;
+package com.chucuaz.android.virtualgdt;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 
@@ -37,19 +37,15 @@ public class myNetworkPool extends AsyncTask {
                 InputStream inFromServer = socket.getInputStream();
                 DataInputStream in = new DataInputStream(inFromServer);
                 debug.INFO("sendData", "Server says " + in.readByte());
-                //inFromServer.close();
             } catch (UnknownHostException e) {
                 debug.ERR("sendData", "sendData fail 1 e: " + e.getMessage());
                 l_ready = false;
-                //e.printStackTrace();
             } catch (IOException e) {
                 debug.ERR("sendData", "sendData fail 2 e: " + e.getMessage());
                 l_ready = false;
-                //e.printStackTrace();
             } catch (Exception e) {
                 debug.ERR("sendData", "sendData fail 3 e: " + e.getMessage());
                 l_ready = false;
-                //e.printStackTrace();
             } finally {
                 if (!l_ready) {
                     try {
@@ -58,7 +54,6 @@ public class myNetworkPool extends AsyncTask {
                         socket = null;
                     } catch (IOException e) {
                         debug.ERR("sendData", "Close socket fail 1 e: " + e.getMessage());
-                        //e.printStackTrace();
                     }
                 }
             }
@@ -123,7 +118,10 @@ public class myNetworkPool extends AsyncTask {
                 data = aes.encryptAsBase64(data).trim();
 
                 PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-                out.println(data);
+
+                if (out != null) {
+                    out.println(data);
+                }
 
                 debug.DBG("sendData", "Send data: " + data);
 

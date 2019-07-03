@@ -1,4 +1,4 @@
-package com.chucuaz.android.VirtualGDT;
+package com.chucuaz.android.virtualgdt;
 
 /**
  * Created by efren.robles on 8/31/2015.

@@ -1,15 +1,15 @@
 //Virtual Graphics Drawing Tablet
 //Virtual GDT
-package com.chucuaz.android.VirtualGDT;
+package com.chucuaz.android.virtualgdt;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
 public class DrawActivity extends AppCompatActivity {
-
 
 	public static DrawActivity mainContext;
 	private int doClick = 0;
@@ -30,7 +30,6 @@ public class DrawActivity extends AppCompatActivity {
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		deviceScreensize = metrics.widthPixels + "," + metrics.heightPixels + "," + 2 + ",";
-
 	}
 
 	public boolean onTouchEvent(final MotionEvent event) {
@@ -55,6 +54,4 @@ public class DrawActivity extends AppCompatActivity {
 	private void initApp() {
 		new Thread(new myThreadPool()).start();
 	}
-
-
 }

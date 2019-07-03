@@ -206,13 +206,13 @@
         android:layout_alignParentEnd="true" />
 
     <ToggleButton
-        android:id="@+id/togglebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:textOn="@string/strDesconectar"
         android:textOff="@string/strConectar"
+        android:id="@+id/togglebutton"
+        android:textOn="@string/strDesconectar"
         android:onClick="onToggleClicked"
+        android:textSize="30dp"
         android:layout_above="@+id/btnConectar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

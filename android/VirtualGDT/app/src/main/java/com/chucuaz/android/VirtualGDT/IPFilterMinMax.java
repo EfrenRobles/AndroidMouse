@@ -1,4 +1,4 @@
-package com.chucuaz.android.VirtualGDT;
+package com.chucuaz.android.virtualgdt;
 
 import android.text.Editable;
 import android.text.TextWatcher;

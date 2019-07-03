@@ -1,4 +1,4 @@
-package com.chucuaz.android.VirtualGDT;
+package com.chucuaz.android.virtualgdt;
 
 /**
  * Created by efren.robles on 7/20/2016.
@@ -30,7 +30,7 @@ public class Globals {
         }
     }
 
-    private String SERVER_IP = "127.0.0.1";
+    private String SERVER_IP = "192.168.0.100";
     final private int SERVERPORT = 1800;
     final private int SERVER_TIME_OUT = 50;
 
@@ -52,7 +52,6 @@ public class Globals {
     }
 
     public boolean getConnectionStatus() {
-        //debug.INFO("ClientThread", " --- getConnectionStatus( " + Globals.getInstance().getConnectionStatus() + " ); --- ");
         debug.INFO("ClientThread", " --- isConnected( " + isConnected + " ); --- ");
         return isConnected;
     }
