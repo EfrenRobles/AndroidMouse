@@ -4,9 +4,6 @@ using System.Runtime.InteropServices;
 namespace Engine {
 	public class myInterfacePool {
 
-		[DllImport("core.dll", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int leftClick(int isPresed);
-
 		[DllImport("User32.Dll")]
 		public static extern long SetCursorPos(int x, int y);
 

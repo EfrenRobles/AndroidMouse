@@ -59,15 +59,7 @@ namespace Engine {
 				System.Threading.Thread.Sleep(10);
 				try {
 					acc.Receive(Buffer, 0, Buffer.Length, 0);
-                    
-                    Console.WriteLine(" --- last data raw recieved was: " + System.Text.Encoding.Default.GetString(Buffer));
-
                     Result = AES.DecryptFromBase64(Buffer);
-
-                    Console.WriteLine(" --- last data recieved was: " + Result);
-
-                    
-                    //Result = System.Text.Encoding.Default.GetString(Buffer);
 					mynpo.moveMouse(Result);
 					acc.Send(buffReturn);
 				} catch (Exception e) {
@@ -81,9 +73,7 @@ namespace Engine {
 		}
 
 		public string dataRaw() {
-			//return Buffer != null ? System.Text.Encoding.UTF8.GetString(Buffer) : "null";
 			if (Buffer != null) {
-				//return System.Text.Encoding.UTF8.GetString(Buffer);
 				return Result;
             } else {
 				return "null";

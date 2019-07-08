@@ -2,7 +2,9 @@ package com.chucuaz.android.virtualgdt;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,19 +16,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MobActivity extends AppCompatActivity {
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+
+    private String interAdTest = "ca-app-pub-3940256099942544/1033173712";
+    private String bannerAdTest = "ca-app-pub-3940256099942544/6300978111";
+
+
     // Remove the below line after defining your own ad unit ID.
     private static final String TOAST_TEXT = "";
 
     private static final int START_LEVEL = 1;
     private int mLevel;
     private Button mNextLevelButton;
-    private InterstitialAd mInterstitialAd;
+    //private InterstitialAd mInterstitialAd;
     private TextView mLevelTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mob);
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this, "ca-app-pub-3659865333359659~3942024606");
 
         // Create the next level button, which tries to show an interstitial when clicked.
         mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
@@ -42,8 +54,12 @@ public class MobActivity extends AppCompatActivity {
         mLevelTextView = (TextView) findViewById(R.id.level);
         mLevel = START_LEVEL;
 
-        // Create the InterstitialAd and set the adUnitId
-        mInterstitialAd = newInterstitialAd();
+        // Create the InterstitialAd and set the adUnitId.
+        mInterstitialAd = new InterstitialAd(this);
+
+        // Defined in res/values/strings.xml
+        mInterstitialAd.setAdUnitId(getString(R.string.ad_unit_id));
+
         loadInterstitial();
 
         // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
@@ -74,9 +90,12 @@ public class MobActivity extends AppCompatActivity {
     }
 
     private InterstitialAd newInterstitialAd() {
-        InterstitialAd interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
-        interstitialAd.setAdListener(new AdListener() {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
+        mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 mNextLevelButton.setEnabled(true);
@@ -88,12 +107,27 @@ public class MobActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
             public void onAdClosed() {
                 // Proceed to the next level.
                 goToNextLevel();
             }
         });
-        return interstitialAd;
+        return mInterstitialAd;
     }
 
     private void showInterstitial() {
@@ -110,16 +144,7 @@ public class MobActivity extends AppCompatActivity {
         // Disable the next level button and load the ad.
         mNextLevelButton.setEnabled(false);
 
-        //AdRequest adRequest = new AdRequest.Builder()
-         //.setRequestAgent("android_studio:ad_template")
-         //.build();
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("AF0ACC1E860526E483C4CF3158FCFE90")
-                .build();
-
-        mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
     private void goToNextLevel() {

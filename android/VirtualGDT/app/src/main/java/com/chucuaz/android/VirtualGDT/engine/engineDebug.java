@@ -1,14 +1,13 @@
-package com.chucuaz.android.virtualgdt;
+package com.chucuaz.android.virtualgdt.engine;
+
+import android.util.Log;
 
 /**
  * Created by efren.robles on 8/31/2015.
  */
-
-import android.util.Log;
-
-public class debug {
-
+public abstract class engineDebug {
     static private final boolean isDebug = true;
+
     static public void VERB(String Tag, String data) {
         if (isDebug)
             Log.v(Tag, data);

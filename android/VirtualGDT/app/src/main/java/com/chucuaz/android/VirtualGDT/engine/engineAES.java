@@ -1,4 +1,4 @@
-package com.chucuaz.android.virtualgdt;
+package com.chucuaz.android.virtualgdt.engine;
 
 import java.security.*;
 import javax.crypto.*;
@@ -10,32 +10,30 @@ import android.util.Base64;
 /**
  * Created by efren.robles on 10/13/2015.
  */
-public class myAESPool {
-    private final String encryptionKey = "MZygpewJsCpRrfOr";
-
-    //-------------
-    public static final String TAG = "AES";
+public class engineAES extends engineDebug{
+    private static final String encryptionKey = "MZygpewJsCpRrfOr";
+    private static final String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
+    private static final String CIPHER_ALGORITHM = "AES";
+    private static final String MESSAGEDIGEST_ALGORITHM = "MD5";
+    private static final String TAG = "AES";
 
     private static Cipher aesCipher;
     private static SecretKey secretKey;
     private static IvParameterSpec ivParameterSpec;
 
-    private static String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
-    private static String CIPHER_ALGORITHM = "AES";
-    // Replace me with a 16-byte key, share between Java and C++
+    // Replace me with a 16-byte key, share between Java and C#
     private static byte[] rawSecretKey = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-    private static String MESSAGEDIGEST_ALGORITHM = "MD5";
 
-    public myAESPool(String passphrase) {
+    public engineAES(String passphrase) {
         byte[] passwordKey = encodeDigest(passphrase);
 
         try {
             aesCipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
         } catch (NoSuchAlgorithmException e) {
-            debug.ERR(TAG, "No such algorithm " + CIPHER_ALGORITHM, e);
+            ERR(TAG, "No such algorithm " + CIPHER_ALGORITHM, e);
         } catch (NoSuchPaddingException e) {
-            debug.ERR(TAG, "No such padding PKCS5", e);
+            ERR(TAG, "No such padding PKCS5", e);
         }
 
         secretKey = new SecretKeySpec(passwordKey, CIPHER_ALGORITHM);
@@ -52,7 +50,7 @@ public class myAESPool {
         try {
             encryptedData = clearData.getBytes("UTF-8");
         } catch (Exception e) {
-            debug.ERR(TAG, "--- There is an error with encryptAsBAse64 --- ");
+            ERR(TAG, "--- There is an error with encryptAsBAse64 --- ");
         }
         return encryptAsBase64(encryptedData);
     }
@@ -62,10 +60,10 @@ public class myAESPool {
         try {
             aesCipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
         } catch (InvalidKeyException e) {
-            debug.ERR(TAG, "Invalid key", e);
+            ERR(TAG, "Invalid key", e);
             return null;
         } catch (InvalidAlgorithmParameterException e) {
-            debug.ERR(TAG, "Invalid algorithm " + CIPHER_ALGORITHM, e);
+            ERR(TAG, "Invalid algorithm " + CIPHER_ALGORITHM, e);
             return null;
         }
 
@@ -73,10 +71,10 @@ public class myAESPool {
         try {
             encryptedData = aesCipher.doFinal(clearData);
         } catch (IllegalBlockSizeException e) {
-            debug.ERR(TAG, "Illegal block size", e);
+            ERR(TAG, "Illegal block size", e);
             return null;
         } catch (BadPaddingException e) {
-            debug.ERR(TAG, "Bad padding", e);
+            ERR(TAG, "Bad padding", e);
             return null;
         }
         return encryptedData;
@@ -88,10 +86,9 @@ public class myAESPool {
             digest = MessageDigest.getInstance(MESSAGEDIGEST_ALGORITHM);
             return digest.digest(text.getBytes());
         } catch (NoSuchAlgorithmException e) {
-            debug.ERR(TAG, "No such algorithm " + MESSAGEDIGEST_ALGORITHM, e);
+            ERR(TAG, "No such algorithm " + MESSAGEDIGEST_ALGORITHM, e);
         }
-
         return null;
-    }    //------------
+    }
 
 }

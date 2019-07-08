@@ -14,12 +14,10 @@
         This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
         For more information, see https://support.google.com/admob/answer/3052638
     <!- -->
-    <!--
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
-    -->
+    <string name="ad_unit_id">ca-app-pub-3659865333359659~3942024606</string>
 
-    <string name="interstitial_ad_unit_id">ca-app-pub-3659865333359659/1211350924</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3659865333359659/4245542528</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3659865333359659/9844501246</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3659865333359659/9741146192</string>
 
     <string name="strProyecto">Virtual GDTA</string>
     <string name="strDescripcion">Virtual Graphic Digitizing Table Android</string>

@@ -205,17 +205,18 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <ToggleButton
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnAds"
+        android:layout_width="158dp"
         android:layout_height="wrap_content"
-        android:textOff="@string/strConectar"
-        android:id="@+id/togglebutton"
-        android:textOn="@string/strDesconectar"
-        android:onClick="onToggleClicked"
-        android:textSize="30dp"
-        android:layout_above="@+id/btnConectar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/btnConectar"
+        android:layout_alignTop="@+id/btnConectar"
+        android:layout_alignEnd="@+id/btnConectar"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="-60dp"
+        android:layout_marginEnd="5dp"
+        android:text="ADS"
+        android:textSize="30sp" />
 
 
 </RelativeLayout>

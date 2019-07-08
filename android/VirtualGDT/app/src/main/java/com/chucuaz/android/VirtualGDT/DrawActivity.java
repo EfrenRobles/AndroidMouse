@@ -9,15 +9,19 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
+import com.chucuaz.android.virtualgdt.engine.Engine;
+
 public class DrawActivity extends AppCompatActivity {
 
 	public static DrawActivity mainContext;
 	private int doClick = 0;
 	private static String deviceScreensize = "";
 
+	private static final Engine engine = new Engine();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		debug.DBG("onCreate", "onCreate: ");
+		Engine.DBG("onCreate", "onCreate: ");
 		super.onCreate(savedInstanceState);
 		mainContext = this;
 
@@ -36,22 +40,38 @@ public class DrawActivity extends AppCompatActivity {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			doClick = 1;
 		} else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			Globals.getInstance().getMythr().sendData(deviceScreensize);
+			//Globals.getInstance().getMythr().sendData(deviceScreensize);
 			doClick = 1;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			doClick = 0;
 		}
 
-		if (Globals.getInstance().getMythr().isConnected()) {
-			Globals.getInstance().getMythr().sendData(((int) event.getX()) + "," + (int) event.getY() + "," + doClick + ",");
-		} else {
-			initApp();
+		if (engine.isConnected()) {
+			//Globals.getInstance().getMythr().sendData(((int) event.getX()) + "," + (int) event.getY() + "," + doClick + ",");
+
+			final String data = ((int) event.getX()) + "," + (int) event.getY() + "," + doClick + ",";
+
+			Thread thread = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					try {
+						engine.sendData(data);
+					} catch (Exception e) {
+						engine.ERR("ClientThread", e.getMessage());
+					}
+				}
+			});
+			thread.start();
+
+
+		//} else {
+		//	initApp();
 		}
 
 		return true;
 	}
 
-	private void initApp() {
-		new Thread(new myThreadPool()).start();
-	}
+	// private void initApp() {
+	// 	new Thread(new myThreadPool()).start();
+	// }
 }
