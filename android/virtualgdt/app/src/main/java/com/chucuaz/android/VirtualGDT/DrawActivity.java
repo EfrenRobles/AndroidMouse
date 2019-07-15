@@ -40,38 +40,20 @@ public class DrawActivity extends AppCompatActivity {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			doClick = 1;
 		} else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			//Globals.getInstance().getMythr().sendData(deviceScreensize);
+			engine.sendData(deviceScreensize);
 			doClick = 1;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			doClick = 0;
 		}
 
 		if (engine.isConnected()) {
-			//Globals.getInstance().getMythr().sendData(((int) event.getX()) + "," + (int) event.getY() + "," + doClick + ",");
-
 			final String data = ((int) event.getX()) + "," + (int) event.getY() + "," + doClick + ",";
-
-			Thread thread = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					try {
-						engine.sendData(data);
-					} catch (Exception e) {
-						engine.ERR("ClientThread", e.getMessage());
-					}
-				}
-			});
-			thread.start();
-
-
-		//} else {
-		//	initApp();
+			engine.sendData(data);
+		} else {
+			engine.connect("");
 		}
 
 		return true;
 	}
 
-	// private void initApp() {
-	// 	new Thread(new myThreadPool()).start();
-	// }
 }

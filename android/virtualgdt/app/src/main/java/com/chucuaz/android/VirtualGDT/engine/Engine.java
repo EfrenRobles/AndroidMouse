@@ -4,7 +4,7 @@ package com.chucuaz.android.virtualgdt.engine;
 public class Engine extends engineDebug {
     private static final String TAG = "Engine";
 
-    public void connect(String server_ip) {
+    public void connect(final String server_ip) {
         engineSingle.getInstance().setServerIp(server_ip);
         new Thread(new engineSingle()).start();
     }
@@ -13,8 +13,19 @@ public class Engine extends engineDebug {
         return engineSingle.getInstance().isConnected();
     }
 
-    public void sendData(String data) {
-        engineSingle.getInstance().sendData(data);
-    }
+    public void sendData(final String data) {
 
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    engineSingle.getInstance().sendData(data);
+                } catch (Exception e) {
+                    ERR(TAG, e.getMessage());
+                }
+            }
+        });
+
+        thread.start();
+    }
 }

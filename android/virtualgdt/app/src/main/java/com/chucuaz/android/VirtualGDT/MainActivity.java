@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Engine.DBG("MainActity", "-- this is the button btnAds ---");
-                //engine.startEngine();
+
             }
         });
 
