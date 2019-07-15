@@ -37,85 +37,25 @@ public class engineSingle extends engineDebug implements Runnable {
     private static boolean l_ready = false;
     private static Socket socket = null;
 
-    private boolean isConnected = false;
     private boolean isServerPing = false;
 
 
     @Override
     public void run() {
+        s_instance.socketAddress = new InetSocketAddress(s_instance.server_ip, SERVERPORT);
+        initSocket(s_instance.socketAddress);
 
-        if (s_instance.state == engineEnum.CONECTAR_AUTO ) {
-            s_instance.socketAddress = new InetSocketAddress(s_instance.server_ip, SERVERPORT);
-            initSocket(s_instance.socketAddress);
-            return;
-        }
-
-
-        while (s_instance.sigue) {
-
-            switch(s_instance.state) {
-                case INICIO:
-                    s_instance.state = engineEnum.ESPERA;
-                    break;
-                case SALIR:
-                    s_instance.sigue = false;
-                    break;
-                case ESPERA:
-                    sleep(5000);
-
-                    break;
-                case CONECTAR:
-                    s_instance.socketAddress = new InetSocketAddress(s_instance.server_ip, SERVERPORT);
-                    initSocket(s_instance.socketAddress);
-                    s_instance.state = engineEnum.ESPERA;
-                    break;
-                case DIBUJAR:
-
-                    break;
-
-            }
-        }
     }
-
 
     protected static engineSingle getInstance() {
         return s_instance;
-    }
-
-    protected engineSingle() {
-
-    }
-
-    protected void inicio() {
-        DBG(TAG, "inicio singleton en while");
-        s_instance.sigue = true;
-        s_instance.state = engineEnum.INICIO;
-    }
-
-    protected void alto() {
-        DBG(TAG, "inicio singleton en while");
-        s_instance.state = engineEnum.SALIR;
-    }
-
-    protected void setState(engineEnum state) {
-        DBG(TAG, "set state");
-        s_instance.state = state;
     }
 
     protected void setServerIp(String ip) {
         s_instance.server_ip = ip;
     }
 
-    protected String getServerIp() {
-        return s_instance.server_ip;
-    }
-
-    public boolean getConnectionStatus() {
-        INFO("ClientThread", " --- isConnected( " + s_instance.isConnected + " ); --- ");
-        return s_instance.isConnected;
-    }
-
-    public boolean isConnected() {
+    protected boolean isConnected() {
         return s_instance.l_ready;
     }
 
@@ -143,7 +83,8 @@ public class engineSingle extends engineDebug implements Runnable {
             sleep(500);
         }
 
-        //debug.INFO("ClientThread", " --- begin initSocket(InetSocketAddress, int); --- ");
+        INFO("ClientThread", " --- begin initSocket(InetSocketAddress, int); --- ");
+
         try {
             s_instance.socket = new Socket();
             //WARN("ClientThread", " --- initSocket step 1 --- ");
@@ -158,15 +99,11 @@ public class engineSingle extends engineDebug implements Runnable {
             s_instance.l_ready = false;
             try {
                 s_instance.socket.close();
-                //WARN("ClientThread", "connection is closed thank you ");
+                WARN("ClientThread", "connection is closed thank you ");
             } catch (Exception e1) {
                 ERR("ClientThread", "connection problem 2:" + e1.toString());
             }
         }
-
-        s_instance.isConnected = l_ready;
-        //Globals.getInstance().setConnectionStatus(l_ready);
-        //INFO("ClientThread", " --- end initSocket --- ");
 
     }
 
